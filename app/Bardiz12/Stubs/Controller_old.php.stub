@@ -1,0 +1,156 @@
+<?php
+
+namespace App\Modules\{{moduleName}}\Controllers;
+
+use Illuminate\Http\Request;
+use App\Bardiz12\Response\Response;
+use App\Http\Controllers\Controller;
+use App\Modules\{{moduleName}}\Models\{{moduleName}};
+use Illuminate\Support\Facades\Validator;
+
+class {{moduleName}}Controller extends Controller
+{
+    protected $config = [
+        "module" => "{{moduleName}}"
+    ];
+
+    public function __construct()
+    {
+        $this->model = new {{moduleName}}();
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        try {
+            $builder = $this->model->searchWithKeywords($request, null, null, null);
+            return Response::success($builder);
+        } catch (\Exception $e) {
+            return Response::warning(null,$e->getMessage());
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+{{storeValidator}}
+        ]);
+
+        if ($validator->fails()) {
+            return Response::error([], $validator->errors());
+        }
+
+        $formData = $validator->validated();
+        ${{tableName}} = $this->model::create($formData);
+        return Response::success(${{tableName}}, "Berhasil menambahkan {{moduleName}} baru");
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $result = $this->model->showWithForeign($id);
+        return Response::success($result);
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        ${{tableName}} = $this->model::find($id);
+
+        if(${{tableName}} == null){
+            return Response::error([],"Data tidak ditemukan");
+        }
+        $validator = Validator::make($request->all(), [
+{{updateValidator}}
+        ]);
+
+        if ($validator->fails()) {
+            return Response::error([], $validator->errors());
+        }
+
+        $formData = $validator->validated();
+        ${{tableName}} = ${{tableName}}->update($formData);
+        return Response::success([],"Data berhasil diperbarui");
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        ${{tableName}} = $this->model::find($id);
+
+        if(${{tableName}} == null){
+            return Response::error([],"Data tidak ditemukan");
+        }
+
+        ${{tableName}}->delete();
+        return Response::success([],"Data berhasil dihapus");
+    }
+
+    public function bulkDestroy(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'ids' => 'array|required'
+        ]);
+
+        if ($validator->fails()) {
+            return Response::error([], $validator->errors());
+        }
+
+        $formData = $validator->validated();
+        $this->model::destroy($formData['ids']);
+        return Response::success([],"Data berhasil dihapus");
+    }
+
+    public function searchCombo(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "q" => "sometimes",
+            "count" => "sometimes|numeric",
+            "field" => ['required', 'string']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "success" => false,
+                "message" => implode("\n", $validator->errors()->all()),
+                "message_type" => "warning"
+            ]);
+        }
+
+        $formData = $validator->validated();
+        $result = $this->model->getComboForeign($formData['field'], $formData);
+
+        return response()->json([
+            "success" => $result !== null,
+            "data" => $result
+        ]);
+    }
+
+    {{custom}}
+}

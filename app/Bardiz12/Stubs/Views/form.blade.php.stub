@@ -1,0 +1,17 @@
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+{{forms}}
+
+
+<x-form.input-container>
+    <div class="flex justify-end">
+        <x-button submitType color="primary">{{isset($model) ? 'Update' : 'Tambah'}}</x-button>
+    </div>
+</x-form.input-container>

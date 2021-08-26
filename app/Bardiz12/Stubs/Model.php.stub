@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Modules\{{moduleName}}\Models;
+
+use App\Bardiz12\BaseModel;
+
+class {{moduleName}} extends BaseModel{
+
+    protected $table = '{{tableName}}';
+    protected $primaryKey = "{{primaryKey}}";
+    protected $fillable = [
+{{fillable}}
+    ];
+
+    protected $relationField = [
+{{relationField}}
+    ];
+    
+    protected $relationFieldInject = [
+{{relationFieldInject}}
+    ];
+
+    {{custom}}
+}

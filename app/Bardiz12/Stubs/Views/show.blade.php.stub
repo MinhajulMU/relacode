@@ -1,0 +1,25 @@
+<x-app-layout>
+    @include('plugins.select2')
+    <x-slot name="pageTitle">Detail {{moduleTitle}}</x-slot>
+    <x-slot name="header">
+        <x-header-page>Detail {{moduleTitle}}</x-header-page>
+    </x-slot>
+
+
+
+    <div class="grid">
+        <x-card>
+            <div class="card-header">
+                Detail Rincian Data
+            </div>
+            <div class="w-full md:w-3/4 mx-auto">
+                <table class="w-full">
+                    <tbody>
+                        {{showBody}}
+                    </tbody>
+                </table>
+            </div>
+
+        </x-card>
+    </div>
+</x-app-layout>

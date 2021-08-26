@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Modules\{{moduleName}}\Livewire;
+
+use App\Bardiz12\Livewire\WithActionField;
+use Livewire\Component;
+use App\Models\BaseModel;
+use Livewire\WithPagination;
+use App\Http\Livewire\Datatable;
+use App\Modules\{{moduleName}}\Models\{{moduleName}};
+use Illuminate\Database\Eloquent\Model;
+
+class {{moduleName}}Datatable extends Datatable{
+
+    use WithActionField;
+    
+    public $headerField = [
+        [
+            "name" => "No",
+            "field" => null,
+            "sortable" => false,
+        ],
+{{datatableHeader}},
+        [
+            "name" => "Aksi",
+            "field" => null,
+            "sortable" => false,
+        ]
+    ];
+    
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->uri = "{{moduleSlug}}";
+        $this->model = new {{moduleName}}();
+        
+    }
+    
+    protected function view(){
+        return "{{moduleName}}::livewire.datatable";
+    }
+    
+}

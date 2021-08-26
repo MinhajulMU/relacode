@@ -1,0 +1,52 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "npm run development",
+    "development": "mix",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
+    "hot": "mix watch --hot",
+    "prod": "npm run production",
+    "production": "mix --production"
+  },
+  "dependencies": {
+    "@babel/preset-react": "^7.12.13",
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "@headlessui/react": "^1.4.0",
+    "@inertiajs/inertia": "^0.8.5",
+    "@inertiajs/inertia-react": "^0.5.4",
+    "@inertiajs/progress": "^0.2.4",
+    "@sentry/browser": "^5.30.0",
+    "autoprefixer": "^10.2.4",
+    "axios": "^0.21.1",
+    "bootstrap": "^5.1.0",
+    "chart.js": "^3.5.0",
+    "classnames": "^2.2.6",
+    "cross-env": "^6.0.3",
+    "dotenv": "^10.0.0",
+    "eslint": "^6.8.0",
+    "laravel-mix": "^6.0.13",
+    "lodash": "^4.17.21",
+    "popper.js": "^1.16.1",
+    "postcss-import": "^12.0.1",
+    "react": "^17.0.1",
+    "react-bootstrap": "^2.0.0-beta.5",
+    "react-dom": "^17.0.1",
+    "react-helmet": "^5.2.1",
+    "react-html-parser": "^2.0.2",
+    "react-jquery-plugin": "^1.1.7",
+    "react-select": "^4.3.1",
+    "react-select-async-paginate": "^0.5.3",
+    "react-use": "^13.27.1",
+    "resolve-url-loader": "^3.1.2",
+    "sweetalert2": "^11.1.4",
+    "tailwindcss": "^2.0.3"
+  },
+  "devDependencies": {
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
+    "babel-eslint": "^10.1.0",
+    "eslint-plugin-react": "^7.22.0",
+    "postcss": "^8.2.10",
+    "react-refresh": "^0.9.0"
+  }
+}
