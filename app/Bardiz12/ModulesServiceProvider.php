@@ -23,8 +23,6 @@ class ModulesServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $modules = config("module.modules");
-        dd($modules);
-        $livewires = config("module.livewires");
         $prefix_path = __DIR__."/../../app/Modules";
         foreach($modules as $module){
             if(file_exists($prefix_path.'/'.$module.'/routes.php')) {

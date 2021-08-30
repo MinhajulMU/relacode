@@ -57,7 +57,7 @@ const Index = ({ title, children }) => {
               </span>
             </button>
             <button className="topbar-toggler more">
-              <i className="fa fa-bars" />
+              <i className="fa fa-ellipsis-v" />
             </button>
             <div className="nav-toggle">
               <button className="btn btn-toggle sidenav-overlay-toggler">

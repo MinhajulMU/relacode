@@ -38,6 +38,7 @@
     "react-select": "^4.3.1",
     "react-select-async-paginate": "^0.5.3",
     "react-use": "^13.27.1",
+    "request": "^2.79.0",
     "resolve-url-loader": "^3.1.2",
     "sweetalert2": "^11.1.4",
     "tailwindcss": "^2.0.3"

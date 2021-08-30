@@ -9,7 +9,6 @@ class TesController extends Controller
 {
     public function index(Request $request)
     {
-        dd(config('module.modules'));
         return Inertia::render('Tes/Index');
     }
 }

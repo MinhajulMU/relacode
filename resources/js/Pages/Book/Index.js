@@ -12,6 +12,7 @@ import DeleteModal from '@/Shared/components/DeleteModal';
 import { Inertia } from '@inertiajs/inertia';
 
 const Index = () => {
+  const tes = usePage().props;
   const { headerField, data, order_field, order_mode } = usePage().props;
   const [deleteModal, setDeleteModal] = useState({
     show: false,
@@ -38,7 +39,7 @@ const Index = () => {
       <div className="page-inner">
         <div className="page-header row">
           <div className="col-12">
-            <FlashMessages />
+            {/* <FlashMessages /> */}
           </div>
           <div className="col-6">
             <h4 className="page-title">Book</h4>

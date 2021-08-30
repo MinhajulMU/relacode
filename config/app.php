@@ -175,6 +175,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         
+        /*
+         * App
+         */
+        App\Bardiz12\ModulesServiceProvider::class,
         
 
     ],

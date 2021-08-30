@@ -16,6 +16,7 @@ Route::get('login')->name('login')->uses('Auth\LoginController@showLoginForm')->
 Route::post('login')->name('login.attempt')->uses('Auth\LoginController@login')->middleware('guest');
 Route::post('logout')->name('logout')->uses('Auth\LoginController@logout');
 
+
 // Dashboard
 Route::get('/')->name('dashboard')->uses('DashboardController')->middleware('auth');
 
@@ -50,15 +51,5 @@ Route::delete('contacts/{contact}')->name('contacts.destroy')->uses('ContactsCon
 Route::put('contacts/{contact}/restore')->name('contacts.restore')->uses('ContactsController@restore')->middleware('auth');
 
 Route::get('tes')->name('tes')->uses('TesController@index');
-
-//book
-
-Route::resource('book', 'BookController');
-Route::get("book/combo/list", "BookController@searchCombo")->name("book.combo.read");
 // Reports
 Route::get('reports')->name('reports')->uses('ReportsController')->middleware('auth');
-
-//500 error
-Route::get('500', function () {
-    echo $fail;
-});

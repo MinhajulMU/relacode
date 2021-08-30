@@ -40,7 +40,6 @@ class Authenticate implements AuthenticatesRequests
     public function handle($request, Closure $next, ...$guards)
     {
         $this->authenticate($request, $guards);
-
         return $next($request);
     }
 
@@ -64,7 +63,7 @@ class Authenticate implements AuthenticatesRequests
                 return $this->auth->shouldUse($guard);
             }
         }
-
+        
         $this->unauthenticated($request, $guards);
     }
 
@@ -90,8 +89,4 @@ class Authenticate implements AuthenticatesRequests
      * @param  \Illuminate\Http\Request  $request
      * @return string|null
      */
-    protected function redirectTo($request)
-    {
-        //
-    }
 }

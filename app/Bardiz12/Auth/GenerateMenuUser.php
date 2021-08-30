@@ -2,7 +2,7 @@
 
 namespace App\Bardiz12\Auth;
 
-use App\Modules\Role\Models\Role;
+use App\Models\Role;
 use DB;
 class GenerateMenuUser{
 

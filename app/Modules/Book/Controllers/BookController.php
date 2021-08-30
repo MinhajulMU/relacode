@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Modules\Book\Controllers;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Log;
-use App\Models\Book;
+use App\Modules\Book\Models\Book;
 use App\Models\Author;
 
 class BookController extends Controller
@@ -67,14 +68,14 @@ class BookController extends Controller
             "fieldOrderBy" => $data['order_field'],
             "modeOrderBy" => $data['order_mode'],
         ]);
-        return Inertia::render('Book/Index', $data);
+        return Inertia::render('Book::Index', $data);
     }
     public function create()
     {
         $data['routes']['backUrl'] =  url()->previous() == URL::to('/') || url()->previous() == URL::current() ? URL::route('book.index') : url()->previous();
         $data['ref_author'] = Author::get(['id_author as value','name as label']);
         $data['ref_allow_pinjam'] = [['key' => 0, 'value' => 'Tidak'],['key' => 1,'value' => 'Ya']];
-        return Inertia::render('Book/Create', $data);
+        return Inertia::render('Book::Create', $data);
     }
     public function store(Request $request)
     {
@@ -96,7 +97,7 @@ class BookController extends Controller
     {
         $data['data'] = $this->model->showWithForeign($id);
         $data['routes']['backUrl'] =  url()->previous() == URL::to('/') || url()->previous() == URL::current() ? URL::route('book.index') : url()->previous();
-        return Inertia::render('Book/Show', $data);
+        return Inertia::render('Book::Show', $data);
     }
 
     public function edit($id)
@@ -105,7 +106,7 @@ class BookController extends Controller
         $data['ref_author'] = Author::get(['id_author as value','name as label']);
         $data['ref_allow_pinjam'] = [['key' => 0, 'value' => 'Tidak'],['key' => 1,'value' => 'Ya']];
         $data['routes']['backUrl'] =  url()->previous() == URL::to('/') || url()->previous() == URL::current() ? URL::route('book.index') : url()->previous();
-        return Inertia::render('Book/Edit', $data);
+        return Inertia::render('Book::Edit', $data);
     }
     public function update(Request $request, $id)
     {

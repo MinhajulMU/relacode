@@ -1,6 +1,7 @@
-import React from 'react';
-
+import React from "react";
+import { InertiaLink, usePage } from "@inertiajs/inertia-react";
 function Profile() {
+  const { auth } = usePage().props;
   return (
     <div>
       <li className="nav-item dropdown hidden-caret">
@@ -30,8 +31,8 @@ function Profile() {
                   />
                 </div>
                 <div className="u-text">
-                  <h4>Hizrian</h4>
-                  <p className="text-muted">hello@example.com</p>
+                  <h4>{auth.user.name}</h4>
+                  <p className="text-muted"></p>
                   <a
                     href="profile.html"
                     className="btn btn-xs btn-secondary btn-sm"
@@ -46,20 +47,15 @@ function Profile() {
               <a className="dropdown-item" href="#">
                 My Profile
               </a>
-              <a className="dropdown-item" href="#">
-                My Balance
-              </a>
-              <a className="dropdown-item" href="#">
-                Inbox
-              </a>
               <div className="dropdown-divider" />
-              <a className="dropdown-item" href="#">
-                Account Setting
-              </a>
-              <div className="dropdown-divider" />
-              <a className="dropdown-item" href="#">
+              <InertiaLink
+                as="button"
+                href={route("logout")}
+                className="dropdown-item"
+                method="post"
+              >
                 Logout
-              </a>
+              </InertiaLink>
             </li>
           </div>
         </ul>
