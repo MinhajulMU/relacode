@@ -14,6 +14,6 @@ use Illuminate\Support\Str;
 
 $slug = Str::snake($module,"-");
 
-Route::group(['namespace' => 'App\Modules\\'.$module.'\Controllers','middleware' => ['web','auth']], function () use ($slug, $module) {
+Route::group(['namespace' => 'App\Modules\\'.$module.'\Controllers','middleware' => ['web','auth','module.privilege']], function () use ($slug, $module) {
     Route::resource($slug, $module . 'Controller');
 });

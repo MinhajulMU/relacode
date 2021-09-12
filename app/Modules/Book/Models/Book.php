@@ -16,7 +16,8 @@ class Book extends BaseModel
         "title",
         "description",
         'id_author',
-        'allow_pinjam'
+        'allow_pinjam',
+        'tanggal_pinjam'
     ];
 
     protected $relationField = [

@@ -9,8 +9,12 @@ const Select2 = ({ label, name, data, selected, errors = [], ...props }) => {
       }
     }
   }
+  if (typeof props.isMulti !== 'undefined') {
+    var selectedData = selected;
+  }else{
+    var selectedData = search(selected, data);
+  }
 
-  var selectedData = search(selected, data);
   return (
     <React.Fragment>
       <div className={`form-group ${errors.length ? 'has-error' : ''}`}>

@@ -2,10 +2,13 @@
 
 namespace App\Modules\{{moduleName}}\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use \App\Bardiz12\Eloquent\UseUUID;
 use App\Bardiz12\BaseModel;
 
 class {{moduleName}} extends BaseModel{
-
+    use UseUUID;
     protected $table = '{{tableName}}';
     protected $primaryKey = "{{primaryKey}}";
     protected $fillable = [

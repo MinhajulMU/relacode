@@ -27,6 +27,7 @@ const FilterDatatable = () => {
       });
     }
   }, [values]);
+  
   const handleChange = e => {
     const key = e.target.name;
     const value = e.target.value;

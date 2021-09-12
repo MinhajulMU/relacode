@@ -15,7 +15,10 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
     use SoftDeletes, Authenticatable, Authorizable, HasFactory;
-
+    public $incrementing = false; 
+    protected $fillable = [
+        'name', 'email', 'password',
+    ];
     public $primaryKey = "id_user";
 
     public function roles()

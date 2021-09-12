@@ -42,4 +42,5 @@ return array(
     '0d8253363903f0ac7b0978dcde4e28a0' => $vendorDir . '/beyondcode/laravel-dump-server/helpers.php',
     'ed962a97bd972bc82007176b647d4e36' => $vendorDir . '/facade/ignition/src/helpers.php',
     '98caa11a197f6516a8e48aa4abb5ccc6' => $vendorDir . '/inertiajs/inertia-laravel/helpers.php',
+    '303c9560ffab7fecfcec7857cd4332f2' => $baseDir . '/app/Bardiz12/Helpers/AuthHelpers.php',
 );

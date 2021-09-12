@@ -3,16 +3,15 @@
 namespace App\Modules\{{moduleName}}\Controllers;
 
 use Illuminate\Http\Request;
-use App\Bardiz12\Response\Response;
-use App\Http\Controllers\Controller;
 use App\Modules\{{moduleName}}\Models\{{moduleName}};
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Log;
 
 class {{moduleName}}Controller extends Controller
 {
-    protected $config = [
-        "module" => "{{moduleName}}"
-    ];
+
+    protected $title = "{{moduleName}}";
 
     public function __construct()
     {
@@ -23,14 +22,23 @@ class {{moduleName}}Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        try {
-            $builder = $this->model->searchWithKeywords($request, null, null, null);
-            return Response::success($builder);
-        } catch (\Exception $e) {
-            return Response::warning(null,$e->getMessage());
-        }
+        $data = [
+            'model' => $this->model
+        ];
+        
+        return view('{{moduleName}}::index', $data);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+        return view("{{moduleName}}::create");
     }
 
     /**
@@ -41,17 +49,16 @@ class {{moduleName}}Controller extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $formData = $request->validate([
 {{storeValidator}}
         ]);
+        
 
-        if ($validator->fails()) {
-            return Response::error([], $validator->errors());
-        }
-
-        $formData = $validator->validated();
-        ${{tableName}} = $this->model::create($formData);
-        return Response::success(${{tableName}}, "Berhasil menambahkan {{moduleName}} baru");
+        ${{moduleNameCamel}} = {{moduleName}}::create($formData);
+        $log  = Log::aktivitas('Menambah '.$this->title.' ID = '.${{moduleNameCamel}}->{{primaryKey}});
+        return redirect()
+                ->route("{{moduleSlug}}.index")
+                ->with('status',['type'=>'success','message' => 'Berhasil menambahkan Data']);
     }
 
     /**
@@ -62,10 +69,23 @@ class {{moduleName}}Controller extends Controller
      */
     public function show($id)
     {
-        $result = $this->model->showWithForeign($id);
-        return Response::success($result);
+        ${{moduleNameCamel}} = $this->model->showWithForeign($id);
+        return view("{{moduleName}}::show", ['{{moduleNameCamel}}' => ${{moduleNameCamel}}]);
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+
+        ${{moduleNameCamel}} = $this->model::findOrFail($id);
+        
+        return view('{{moduleName}}::edit', ['data' => ${{moduleNameCamel}}]);
+    }
 
     /**
      * Update the specified resource in storage.
@@ -76,22 +96,18 @@ class {{moduleName}}Controller extends Controller
      */
     public function update(Request $request, $id)
     {
-        ${{tableName}} = $this->model::find($id);
-
-        if(${{tableName}} == null){
-            return Response::error([],"Data tidak ditemukan");
-        }
-        $validator = Validator::make($request->all(), [
+        $backLink = getBackLink();
+        $formData = $request->validate([
 {{updateValidator}}
         ]);
 
-        if ($validator->fails()) {
-            return Response::error([], $validator->errors());
-        }
+        ${{moduleNameCamel}} = {{moduleName}}::findOrFail($id);
+        ${{moduleNameCamel}}->update($formData);
 
-        $formData = $validator->validated();
-        ${{tableName}} = ${{tableName}}->update($formData);
-        return Response::success([],"Data berhasil diperbarui");
+        $log  = Log::aktivitas('Mengubah '.$this->title.' ID = '.${{moduleNameCamel}}->{{primaryKey}});
+        return ($backLink 
+                ? redirect($backLink)
+                : redirect()->route("{{moduleSlug}}.index"))->with('status',['type'=>'success','message'=>'Berhasil memperbarui Data']);
     }
 
     /**
@@ -102,37 +118,18 @@ class {{moduleName}}Controller extends Controller
      */
     public function destroy($id)
     {
-        ${{tableName}} = $this->model::find($id);
-
-        if(${{tableName}} == null){
-            return Response::error([],"Data tidak ditemukan");
-        }
-
-        ${{tableName}}->delete();
-        return Response::success([],"Data berhasil dihapus");
+        ${{moduleNameCamel}} = {{moduleName}}::findOrFail($id);
+        ${{moduleNameCamel}}->delete();
+        $log  = Log::aktivitas('Menghapus '.$this->title.' ID = '.$id);
+        return response()->json(['success'=>true]);
     }
 
-    public function bulkDestroy(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'ids' => 'array|required'
-        ]);
-
-        if ($validator->fails()) {
-            return Response::error([], $validator->errors());
-        }
-
-        $formData = $validator->validated();
-        $this->model::destroy($formData['ids']);
-        return Response::success([],"Data berhasil dihapus");
-    }
-
-    public function searchCombo(Request $request)
-    {
+    public function searchCombo(Request $request){
         $validator = Validator::make($request->all(), [
             "q" => "sometimes",
             "count" => "sometimes|numeric",
-            "field" => ['required', 'string']
+            "field" => ['required', 'string'],
+            "initial" => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -151,6 +148,4 @@ class {{moduleName}}Controller extends Controller
             "data" => $result
         ]);
     }
-
-    {{custom}}
 }

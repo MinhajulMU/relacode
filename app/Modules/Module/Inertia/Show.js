@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import Layout from '@/Shared/Templates/Layout';
-import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
-import BackButton from '@/Shared/components/BackButton';
+import React, { useState } from "react";
+import Layout from "@/Shared/Templates/Layout";
+import { InertiaLink, usePage, useForm } from "@inertiajs/inertia-react";
+import BackButton from "@/Shared/components/BackButton";
 
 const Show = ({ data, routes }) => {
   return (
@@ -9,7 +9,7 @@ const Show = ({ data, routes }) => {
       <div className="page-inner">
         <div className="page-header row">
           <div className="col-6">
-            <h4 className="page-title">Detail Book</h4>
+            <h4 className="page-title">Detail Module</h4>
           </div>
           <div className="col-6 text-right">
             <BackButton>{routes.backUrl}</BackButton>
@@ -29,33 +29,53 @@ const Show = ({ data, routes }) => {
                   <table>
                     <tbody>
                       <tr>
-                        <td className="px-4 py-2 align-top">Author</td>
+                        <td className="px-4 py-2 align-top">Name</td>
                         <td className="px-4 py-2 align-top" width="10px">
                           :
                         </td>
-                        <td className="px-4 py-2">{data.id_author}</td>
+                        <td className="px-4 py-2">{data.name}</td>
                       </tr>
+
                       <tr>
-                        <td className="px-4 py-2 align-top">Title</td>
+                        <td className="px-4 py-2 align-top">Icon</td>
                         <td className="px-4 py-2 align-top" width="10px">
                           :
                         </td>
-                        <td className="px-4 py-2">{data.title} </td>
+                        <td className="px-4 py-2">{data.icon}</td>
                       </tr>
+
                       <tr>
-                        <td className="px-4 py-2 align-top">Description</td>
+                        <td className="px-4 py-2 align-top">Slug</td>
                         <td className="px-4 py-2 align-top" width="10px">
                           :
                         </td>
-                        <td className="px-4 py-2">{data.description}</td>
+                        <td className="px-4 py-2">{data.slug}</td>
                       </tr>
+
                       <tr>
-                        <td className="px-4 py-2 align-top">Allow Pinjam</td>
+                        <td className="px-4 py-2 align-top">Is Show</td>
                         <td className="px-4 py-2 align-top" width="10px">
                           :
                         </td>
-                        <td className="px-4 py-2">{data.allow_pinjam == 1 ? "Ya" : "Tidak"}</td>
+                        <td className="px-4 py-2">{data.is_show}</td>
                       </tr>
+
+                      <tr>
+                        <td className="px-4 py-2 align-top">Menu Grup</td>
+                        <td className="px-4 py-2 align-top" width="10px">
+                          :
+                        </td>
+                        <td className="px-4 py-2">{data.id_menu_grup}</td>
+                      </tr>
+
+                      <tr>
+                        <td className="px-4 py-2 align-top">Urutan</td>
+                        <td className="px-4 py-2 align-top" width="10px">
+                          :
+                        </td>
+                        <td className="px-4 py-2">{data.urutan}</td>
+                      </tr>
+
                     </tbody>
                   </table>
                 </div>
@@ -68,5 +88,5 @@ const Show = ({ data, routes }) => {
   );
 };
 
-Show.layout = page => <Layout children={page} title="Detail Book" />;
+Show.layout = (page) => <Layout children={page} title="Detail Module" />;
 export default Show;

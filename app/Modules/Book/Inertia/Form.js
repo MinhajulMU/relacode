@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
-import TextInput from '@/Shared/Form/TextInput';
-import TextareaInput from '@/Shared/Form/TextareaInput';
-import Select2 from '@/Shared/Form/Select2';
-import Radio from '@/Shared/Form/Radio';
-import SubmitButton from '@/Shared/Form/SubmitButton';
+import React, { useState } from "react";
+import { InertiaLink, usePage, useForm } from "@inertiajs/inertia-react";
+import TextInput from "@/Shared/Form/TextInput";
+import TextareaInput from "@/Shared/Form/TextareaInput";
+import Select2 from "@/Shared/Form/Select2";
+import Radio from "@/Shared/Form/Radio";
+import SubmitButton from "@/Shared/Form/SubmitButton";
+import DateInput from "@/Shared/Form/DateInput";
 
-const Form = ({data,setData,processing}) => {
+const Form = ({ data, setData, processing }) => {
   const props = usePage().props;
   return (
     <React.Fragment>
@@ -17,8 +18,8 @@ const Form = ({data,setData,processing}) => {
           errors={props.errors.id_author}
           data={props.ref_author}
           selected={data.id_author}
-          onChange={selectedOption =>
-            setData('id_author', selectedOption.value)
+          onChange={(selectedOption) =>
+            setData("id_author", selectedOption.value)
           }
         ></Select2>
         <Radio
@@ -26,8 +27,17 @@ const Form = ({data,setData,processing}) => {
           name="allow_pinjam"
           errors={props.errors.allow_pinjam}
           value={data.allow_pinjam}
-          choises={props.ref_allow_pinjam}
-          onChange={e => setData('allow_pinjam', e.target.value)}
+          choises={[
+            {
+              key: 0,
+              value: "Tidak",
+            },
+            {
+              key: 1,
+              value: "Ya",
+            },
+          ]}
+          onChange={(e) => setData("allow_pinjam", e.target.value)}
         ></Radio>
         <TextInput
           type="text"
@@ -36,21 +46,32 @@ const Form = ({data,setData,processing}) => {
           errors={props.errors.title}
           value={data.title}
           placeholder="Enter Title"
-          onChange={e => setData('title', e.target.value)}
+          onChange={(e) => setData("title", e.target.value)}
+        />
+        <DateInput
+          type="datetime"
+          label="Tanggal Pinjam"
+          name="tanggal_pinjam"
+          errors={props.errors.tanggal_pinjam}
+          value={data.tanggal_pinjam}
+          onChange={(e, dateString) => setData("tanggal_pinjam", dateString)}
         />
         <TextareaInput
           label="Description"
           name="description"
           errors={props.errors.description}
           value={data.description}
-          onChange={e => setData('description', e.target.value)}
+          onChange={(e) => setData("description", e.target.value)}
         />
         <div className="row">
           <div className="col-12 text-right">
             <InertiaLink href={props.routes.backUrl}>
               <button className="btn btn-secondary mr-1">Cancel</button>
             </InertiaLink>
-            <SubmitButton name={props.book != null ? "Update" : "Tambah"} isLoading={processing}></SubmitButton>
+            <SubmitButton
+              name={props.book != null ? "Update" : "Tambah"}
+              isLoading={processing}
+            ></SubmitButton>
           </div>
         </div>
       </div>

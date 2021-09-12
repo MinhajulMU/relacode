@@ -46,7 +46,7 @@ class ModuleGenerate extends Command
         //1. create Model
         $this->call("modules:model", $params);
         $this->call("modules:crud", $params);
-        $this->call("modules:seed-db");
+        // $this->call("modules:seed-db");
         return 0;
     }
 }

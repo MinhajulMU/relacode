@@ -51,7 +51,7 @@ class GenerateMenuUser{
                     $menu['grup_menu'][$key]['menu_utama'][$key_menu] = [
                         'nm'   => $value_menu->name,
                         'icon' => $value_menu->icon,
-
+                        'slug' => $value_menu->slug,
                         'submenu' => null
                     ];
                     $submenu = DB::table('role_privilege')

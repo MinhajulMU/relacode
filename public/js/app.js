@@ -15,6 +15,31 @@
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var map = {
+	"./Author2/Inertia/Create.js": [
+		"./app/Modules/Author2/Inertia/Create.js",
+		"/js/vendor",
+		"app_Modules_Author2_Inertia_Create_js"
+	],
+	"./Author2/Inertia/Edit.js": [
+		"./app/Modules/Author2/Inertia/Edit.js",
+		"/js/vendor",
+		"app_Modules_Author2_Inertia_Edit_js"
+	],
+	"./Author2/Inertia/Form.js": [
+		"./app/Modules/Author2/Inertia/Form.js",
+		"/js/vendor",
+		"app_Modules_Author2_Inertia_Form_js"
+	],
+	"./Author2/Inertia/Index.js": [
+		"./app/Modules/Author2/Inertia/Index.js",
+		"/js/vendor",
+		"app_Modules_Author2_Inertia_Index_js"
+	],
+	"./Author2/Inertia/Show.js": [
+		"./app/Modules/Author2/Inertia/Show.js",
+		"/js/vendor",
+		"app_Modules_Author2_Inertia_Show_js"
+	],
 	"./Book/Inertia/Create.js": [
 		"./app/Modules/Book/Inertia/Create.js",
 		"/js/vendor",
@@ -33,17 +58,97 @@ var map = {
 	"./Book/Inertia/Index.js": [
 		"./app/Modules/Book/Inertia/Index.js",
 		"/js/vendor",
-		"app_Modules_Book_Inertia_Index_js"
+		"app_Modules_Book_Inertia_Index_js-node_modules_moment_locale_sync_recursive_"
 	],
 	"./Book/Inertia/Show.js": [
 		"./app/Modules/Book/Inertia/Show.js",
 		"/js/vendor",
 		"app_Modules_Book_Inertia_Show_js"
 	],
+	"./Book2/Inertia/Create.js": [
+		"./app/Modules/Book2/Inertia/Create.js",
+		"/js/vendor",
+		"app_Modules_Book2_Inertia_Create_js"
+	],
+	"./Book2/Inertia/Edit.js": [
+		"./app/Modules/Book2/Inertia/Edit.js",
+		"/js/vendor",
+		"app_Modules_Book2_Inertia_Edit_js"
+	],
+	"./Book2/Inertia/Form.js": [
+		"./app/Modules/Book2/Inertia/Form.js",
+		"/js/vendor",
+		"app_Modules_Book2_Inertia_Form_js"
+	],
+	"./Book2/Inertia/Index.js": [
+		"./app/Modules/Book2/Inertia/Index.js",
+		"/js/vendor",
+		"app_Modules_Book2_Inertia_Index_js"
+	],
+	"./Book2/Inertia/Show.js": [
+		"./app/Modules/Book2/Inertia/Show.js",
+		"/js/vendor",
+		"app_Modules_Book2_Inertia_Show_js"
+	],
 	"./Dashboard/Inertia/Index.js": [
 		"./app/Modules/Dashboard/Inertia/Index.js",
 		"/js/vendor",
 		"app_Modules_Dashboard_Inertia_Index_js"
+	],
+	"./Dashboard/Inertia/Profil.js": [
+		"./app/Modules/Dashboard/Inertia/Profil.js",
+		"/js/vendor",
+		"app_Modules_Dashboard_Inertia_Profil_js"
+	],
+	"./Log/Inertia/Create.js": [
+		"./app/Modules/Log/Inertia/Create.js",
+		"/js/vendor",
+		"app_Modules_Log_Inertia_Create_js"
+	],
+	"./Log/Inertia/Edit.js": [
+		"./app/Modules/Log/Inertia/Edit.js",
+		"/js/vendor",
+		"app_Modules_Log_Inertia_Edit_js"
+	],
+	"./Log/Inertia/Form.js": [
+		"./app/Modules/Log/Inertia/Form.js",
+		"/js/vendor",
+		"app_Modules_Log_Inertia_Form_js"
+	],
+	"./Log/Inertia/Index.js": [
+		"./app/Modules/Log/Inertia/Index.js",
+		"/js/vendor",
+		"app_Modules_Log_Inertia_Index_js"
+	],
+	"./Log/Inertia/Show.js": [
+		"./app/Modules/Log/Inertia/Show.js",
+		"/js/vendor",
+		"app_Modules_Log_Inertia_Show_js"
+	],
+	"./MenuGrup/Inertia/Create.js": [
+		"./app/Modules/MenuGrup/Inertia/Create.js",
+		"/js/vendor",
+		"app_Modules_MenuGrup_Inertia_Create_js"
+	],
+	"./MenuGrup/Inertia/Edit.js": [
+		"./app/Modules/MenuGrup/Inertia/Edit.js",
+		"/js/vendor",
+		"app_Modules_MenuGrup_Inertia_Edit_js"
+	],
+	"./MenuGrup/Inertia/Form.js": [
+		"./app/Modules/MenuGrup/Inertia/Form.js",
+		"/js/vendor",
+		"app_Modules_MenuGrup_Inertia_Form_js"
+	],
+	"./MenuGrup/Inertia/Index.js": [
+		"./app/Modules/MenuGrup/Inertia/Index.js",
+		"/js/vendor",
+		"app_Modules_MenuGrup_Inertia_Index_js"
+	],
+	"./MenuGrup/Inertia/Show.js": [
+		"./app/Modules/MenuGrup/Inertia/Show.js",
+		"/js/vendor",
+		"app_Modules_MenuGrup_Inertia_Show_js"
 	],
 	"./Module/Inertia/Create.js": [
 		"./app/Modules/Module/Inertia/Create.js",
@@ -69,6 +174,81 @@ var map = {
 		"./app/Modules/Module/Inertia/Show.js",
 		"/js/vendor",
 		"app_Modules_Module_Inertia_Show_js"
+	],
+	"./Role/Inertia/Create.js": [
+		"./app/Modules/Role/Inertia/Create.js",
+		"/js/vendor",
+		"app_Modules_Role_Inertia_Create_js"
+	],
+	"./Role/Inertia/Edit.js": [
+		"./app/Modules/Role/Inertia/Edit.js",
+		"/js/vendor",
+		"app_Modules_Role_Inertia_Edit_js"
+	],
+	"./Role/Inertia/Form.js": [
+		"./app/Modules/Role/Inertia/Form.js",
+		"/js/vendor",
+		"app_Modules_Role_Inertia_Form_js"
+	],
+	"./Role/Inertia/Index.js": [
+		"./app/Modules/Role/Inertia/Index.js",
+		"/js/vendor",
+		"app_Modules_Role_Inertia_Index_js"
+	],
+	"./Role/Inertia/Show.js": [
+		"./app/Modules/Role/Inertia/Show.js",
+		"/js/vendor",
+		"app_Modules_Role_Inertia_Show_js"
+	],
+	"./RolePrivilege/Inertia/Create.js": [
+		"./app/Modules/RolePrivilege/Inertia/Create.js",
+		"/js/vendor",
+		"app_Modules_RolePrivilege_Inertia_Create_js"
+	],
+	"./RolePrivilege/Inertia/Edit.js": [
+		"./app/Modules/RolePrivilege/Inertia/Edit.js",
+		"/js/vendor",
+		"app_Modules_RolePrivilege_Inertia_Edit_js"
+	],
+	"./RolePrivilege/Inertia/Form.js": [
+		"./app/Modules/RolePrivilege/Inertia/Form.js",
+		"/js/vendor",
+		"app_Modules_RolePrivilege_Inertia_Form_js"
+	],
+	"./RolePrivilege/Inertia/Index.js": [
+		"./app/Modules/RolePrivilege/Inertia/Index.js",
+		"/js/vendor",
+		"app_Modules_RolePrivilege_Inertia_Index_js"
+	],
+	"./RolePrivilege/Inertia/Show.js": [
+		"./app/Modules/RolePrivilege/Inertia/Show.js",
+		"/js/vendor",
+		"app_Modules_RolePrivilege_Inertia_Show_js"
+	],
+	"./Users/Inertia/Create.js": [
+		"./app/Modules/Users/Inertia/Create.js",
+		"/js/vendor",
+		"app_Modules_Users_Inertia_Create_js"
+	],
+	"./Users/Inertia/Edit.js": [
+		"./app/Modules/Users/Inertia/Edit.js",
+		"/js/vendor",
+		"app_Modules_Users_Inertia_Edit_js"
+	],
+	"./Users/Inertia/Form.js": [
+		"./app/Modules/Users/Inertia/Form.js",
+		"/js/vendor",
+		"app_Modules_Users_Inertia_Form_js"
+	],
+	"./Users/Inertia/Index.js": [
+		"./app/Modules/Users/Inertia/Index.js",
+		"/js/vendor",
+		"app_Modules_Users_Inertia_Index_js"
+	],
+	"./Users/Inertia/Show.js": [
+		"./app/Modules/Users/Inertia/Show.js",
+		"/js/vendor",
+		"app_Modules_Users_Inertia_Show_js"
 	]
 };
 function webpackAsyncContext(req) {

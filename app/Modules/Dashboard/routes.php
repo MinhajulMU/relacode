@@ -14,7 +14,12 @@ use Illuminate\Support\Str;
 
 $slug = Str::snake($module,"-");
 
-Route::group(['namespace' => 'App\Modules\\'.$module.'\Controllers','middleware' => ['web','auth']], function () use ($slug, $module) {
+Route::group(['namespace' => 'App\Modules\\'.$module.'\Controllers','middleware' => ['web','auth','module.privilege']], function () use ($slug, $module) {
     Route::resource($slug, $module . 'Controller');
     Route::get($slug . "/change-role/{id_role?}", $module . "Controller@changeRole")->name($slug . ".change-role.update");
+});
+
+Route::group(['namespace' => 'App\Modules\\'.$module.'\Controllers', 'middleware' => ['web','auth','module.privilege']], function () use ($slug, $module) {
+    Route::get("profile/index", $module . "Controller@profil")->name("dashboard.profile.index");
+    Route::post("profile/edit", $module . "Controller@editProfil")->name("dashboard.profile.update");
 });

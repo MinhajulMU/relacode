@@ -39,60 +39,53 @@ class ModuleGenerateController extends Command
      */
     public function handle()
     {
-        $force = (Bool) $this->option("force");
+        $force = (bool) $this->option("force");
         $table_name = $this->argument('table_name');
-       
+
         $moduleNameCamel = Str::camel($table_name);
         $moduleNameLower = strtolower($moduleNameCamel);
         $moduleName = ucfirst($moduleNameCamel);
-        $moduleSlug = Str::snake($moduleName,"-");
-        $moduleTitle = ucwords(str_replace("-"," ",$moduleSlug));
-        
-        
+        $moduleSlug = Str::snake($moduleName, "-");
+        $moduleTitle = ucwords(str_replace("-", " ", $moduleSlug));
+
         $root = config('module.directory');
         $moduleDir = $root . $moduleName;
         $controllersDir = $moduleDir . "/Controllers";
-        if( !is_dir($moduleDir)){
+        if (!is_dir($moduleDir)) {
             mkdir($moduleDir);
         }
 
-        if( !is_dir($controllersDir)){
+        if (!is_dir($controllersDir)) {
             mkdir($controllersDir);
         }
 
         $viewsDir = $moduleDir . "/Views";
-        if( !is_dir($viewsDir)){
+        if (!is_dir($viewsDir)) {
             mkdir($viewsDir);
         }
 
-        $livewireDir = $moduleDir . "/Livewire";
-        if( !is_dir($livewireDir)){
-            mkdir($livewireDir);
+        $inertiaDir = $moduleDir . "/Inertia";
+        if (!is_dir($inertiaDir)) {
+            mkdir($inertiaDir);
         }
 
-        $livewireViewDir = $viewsDir . "/livewire";
-        if( !is_dir($livewireViewDir)){
-            mkdir($livewireViewDir);
-        }
-
-        $controllerFilePath = $controllersDir ."/" . $moduleName ."Controller.php";
-        $routesFilePath = $moduleDir ."/routes.php";
+        $controllerFilePath = $controllersDir . "/" . $moduleName . "Controller.php";
+        $routesFilePath = $moduleDir . "/routes.php";
         $replaceCustom = false;
-        if(file_exists($controllerFilePath)){
-            if(!$force){
+        if (file_exists($controllerFilePath)) {
+            if (!$force) {
                 return $this->error("CRUD Controller for $moduleName already exists!");
-            }else{
+            } else {
                 $replaceCustom = true;
             }
         }
 
         $fields = EloquentHelper::getFieldList($table_name);
-
         $relations = EloquentHelper::getRelations($table_name);
         $fieldRelations = [];
 
         $datatableHeader = [];
-        foreach($relations as $relation){
+        foreach ($relations as $relation) {
             $fieldRelations[$relation->COLUMN_NAME] = [
                 "ref_table" => $relation->REFERENCED_TABLE_NAME,
                 "ref_column" => $relation->REFERENCED_COLUMN_NAME
@@ -104,105 +97,114 @@ class ModuleGenerateController extends Command
         $tbodyItems = [];
         $forms = [];
         $showBody = [];
-        foreach($fields['fillable'] as $field_name => $config){
+        $relationModel = [];
+        $relationReference = [];
+        $inputField = [];
+        $editField = [];
+
+        foreach ($fields['fillable'] as $field_name => $config) {
             $storeRules = [];
             $updateRules = [];
-            if($config['required']){
+            if ($config['required']) {
                 $storeRules[] = "required";
-                
                 $updateRules[] = "required";
-            }else{
+            } else {
                 $storeRules[] = "nullable";
-                
                 $updateRules[] = "nullable";
             }
 
-            if($config["tipe"] == "string"){
+            if ($config["tipe"] == "string") {
                 $storeRules[] = "string";
                 $storeRules[] = "max:" . $config["length"];
 
                 $updateRules[] = "string";
                 $updateRules[] = "max:" . $config["length"];
-            }else if($config["tipe"] == "int"){
+            } else if ($config["tipe"] == "int") {
                 $storeRules[] = "numeric";
 
                 $updateRules[] = "numeric";
-            }else if($config["tipe"] == "date"){
+            } else if ($config["tipe"] == "date") {
                 $storeRules[] = "date";
 
                 $updateRules[] = "date";
-            }else if($config["tipe"] == "time"){
+            } else if ($config["tipe"] == "time") {
                 $storeRules[] = "date_format:H:i";
 
                 $updateRules[] = "date_format:H:i";
-            }else if($config["tipe"] == "datetime"){
+            } else if ($config["tipe"] == "datetime") {
                 $storeRules[] = "date_format:Y-m-d H:i:s";
 
                 $updateRules[] = "date_format:Y-m-d H:i:s";
-            }else if($config["tipe"] == "text"){
+            } else if ($config["tipe"] == "text") {
                 $storeRules[] = "string";
 
                 $updateRules[] = "string";
             }
 
-            if($config["column_key"] == "UNI"){
-                $storeRules[] = "unique:".$table_name;
+            if ($config["column_key"] == "UNI") {
+                $storeRules[] = "unique:" . $table_name;
 
-                $updateRules[] = "unique:".$table_name .",".$field_name.",\$id,".$fields["primaryKey"];
+                $updateRules[] = "unique:" . $table_name . "," . $field_name . ",\$id," . $fields["primaryKey"];
             }
 
-            if(isset($fieldRelations[$field_name])){
+            if (isset($fieldRelations[$field_name])) {
                 $relasi = $fieldRelations[$field_name];
-                $storeRules[] = "exists:".$relasi['ref_table'] .",".$relasi['ref_column'];
-
-                $updateRules[] = "exists:".$relasi['ref_table'] .",".$relasi['ref_column'];
+                $storeRules[] = "exists:" . $relasi['ref_table'] . "," . $relasi['ref_column'];
+                $updateRules[] = "exists:" . $relasi['ref_table'] . "," . $relasi['ref_column'];
+                $relationModel[] = "use App\\Modules\\" . ucfirst(Str::camel($relasi['ref_table'])) . "\\Models\\" . ucfirst(Str::camel($relasi['ref_table'])) . ";";
+                $relationField = EloquentHelper::getFieldList($relasi['ref_table']);
+                $relationFieldPrimary = $relationField['primaryKey'];
+                $relationFieldDesc = array_key_first($relationField['fillable']);
+                $relationReference[] = '$data["ref_' . $relasi['ref_table'] . '"] = ' . ucfirst(Str::camel($relasi['ref_table'])) . '::get(["' . $relationFieldPrimary . ' as value","' . $relationFieldDesc . ' as label"]);';
             }
-            $storeValidator[] = '            "'.$field_name.'"       => "' . implode("|",$storeRules) .'"';
-            $updateValidator[] = '            "'.$field_name.'"       => "' . implode("|",$updateRules) .'"';
+            $storeValidator[] = '            "' . $field_name . '"       => "' . implode("|", $storeRules) . '"';
+            $updateValidator[] = '            "' . $field_name . '"       => "' . implode("|", $updateRules) . '"';
 
 
-            $tbodyItems[] = '        <td class="px-4 py-3">
-            {{ ($item->'.$field_name.') }}
-        </td>';
+            $tbodyItems[] = '        <td>{items.' . $field_name . '}</td>';
+            $inputField[] = $field_name . ' : "",';
+            $editField[] = $field_name . ' : props.' . $moduleNameCamel . '.'.$field_name.' || "",';
             $fieldNameBeauty = $this->convertColumnName($field_name);
             $tmpShowBody = "        [\n";
-            $tmpShowBody.= "            \"name\" => \"$fieldNameBeauty\",\n";
-            $tmpShowBody.= "            \"field\" => \"$field_name\",\n";
-            $tmpShowBody.= "            \"sortable\" => true,\n";
-            $tmpShowBody.= "        ]";
+            $tmpShowBody .= "            \"name\" => \"$fieldNameBeauty\",\n";
+            $tmpShowBody .= "            \"field\" => \"$field_name\",\n";
+            $tmpShowBody .= "            \"sortable\" => true,\n";
+            $tmpShowBody .= "        ]";
             $datatableHeader[] = $tmpShowBody;
-
             $forms[] = $this->generateFormInput($fieldNameBeauty, $field_name, $config, $fieldRelations[$field_name] ?? null, $moduleSlug);
+
             $showBody[] = '<tr>
-            <td class="px-4 py-2 align-top">'.$fieldNameBeauty.'</td>
-            <td class="px-4 py-2 align-top" width="10px">:</td>
-            <td class="px-4 py-2">{{$'.$moduleNameCamel.'->'.$field_name.'}}</td>
+            <td className="px-4 py-2 align-top">' . $fieldNameBeauty . '</td>
+            <td className="px-4 py-2 align-top" width="10px">:</td>
+            <td className="px-4 py-2">{data.' . $field_name . '}</td>
         </tr>';
-
         }
-
         $tbodyItems = implode("\n", $tbodyItems);
         $forms = implode("\n\n", $forms);
         $datatableHeader = implode(",\n", $datatableHeader);
-        $showBody = implode("\n\n",$showBody);
-
+        $showBody = implode("\n\n", $showBody);
         $stringStoreValidator = implode(",\n", $storeValidator);
         $stringUpdateValidator = implode(",\n", $updateValidator);
-
-        $stubFile = __DIR__ ."/../../../Bardiz12/Stubs/Controller.php.stub";
-        $stub = file_get_contents($stubFile); 
+        $relationModel = implode("\n", $relationModel);
+        $relationReference = implode("\n", $relationReference);
+        $inputField = implode("\n", $inputField);
+        $editField = implode("\n", $editField);
+        $stubFile = __DIR__ . "/../../../Bardiz12/Stubs/Controller.php.stub";
+        $stub = file_get_contents($stubFile);
 
         $stub = str_replace("{{moduleName}}", $moduleName, $stub);
-        $stub = str_replace("{{moduleSlug}}", Str::snake($moduleName,"-"), $stub);
+        $stub = str_replace("{{moduleSlug}}", Str::snake($moduleName, "-"), $stub);
         $stub = str_replace("{{moduleNameCamel}}", Str::camel($moduleName), $stub);
-        $stub = str_replace("{{tableName}}", $table_name, $stub);
         $stub = str_replace("{{primaryKey}}", $fields["primaryKey"], $stub);
-
         $stub = str_replace("{{storeValidator}}", $stringStoreValidator, $stub);
         $stub = str_replace("{{updateValidator}}", $stringUpdateValidator, $stub);
+        $stub = str_replace("{{datatableHeader}}", $datatableHeader, $stub);
+        $stub = str_replace("{{RelationModel}}", $relationModel, $stub);
+        $stub = str_replace("{{RelationReference}}", $relationReference, $stub);
+
 
         $custom = null;
-        if($replaceCustom){
+        if ($replaceCustom) {
             $originalFile = file_get_contents($controllerFilePath);
             preg_match_all("/\/\/Start Custom(\n?)(.|\n)+?(\n?)\s+\/\/End Custom/m", $originalFile, $matches);
             $custom = $matches[0][0] ?? null;
@@ -210,106 +212,92 @@ class ModuleGenerateController extends Command
         $stub = str_replace("{{custom}}", $custom, $stub);
 
 
-        $routeStubFile = __DIR__ ."/../../../Bardiz12/Stubs/routes.php.stub";
+        $routeStubFile = __DIR__ . "/../../../Bardiz12/Stubs/routes.php.stub";
         $writeRoute = true;
-        if(file_exists($routesFilePath)){
+        if (file_exists($routesFilePath)) {
             $ask = $this->ask('Route file exists, rewrite ? [y/N]', 'n');
             $ask = strtolower($ask);
-            if($ask === "n"){
+            if ($ask === "n") {
                 $writeRoute = false;
             }
         }
 
-        
-
         //create Views
-        
+
         //start View Stub
-        $indexViewStub = $this->getStub("Views/index.blade.php.stub");
-        $datatableViewStub = $this->getStub("Views/datatable.blade.php.stub");
-        $showViewStub = $this->getStub("Views/show.blade.php.stub");
-        $updateViewStub = $this->getStub("Views/edit.blade.php.stub");
-        $createViewStub = $this->getStub("Views/create.blade.php.stub");
-        $formViewStub = $this->getStub("Views/form.blade.php.stub");
-        
+        $indexViewStub = $this->getStub("Inertia/Index.js.stub");
+        $showViewStub = $this->getStub("Inertia/Show.js.stub");
+        $editViewStub = $this->getStub("Inertia/Edit.js.stub");
+        $createViewStub = $this->getStub("Inertia/Create.js.stub");
+        $formViewStub = $this->getStub("Inertia/Form.js.stub");
 
         $vars = [
             'moduleTitle' => $moduleTitle,
             'moduleName' => $moduleName,
-            'moduleNameLower' => $moduleNameLower,
-            'moduleNameCamel' => $moduleNameCamel,
             'moduleSlug' => $moduleSlug,
+            'moduleNameCamel' => $moduleNameCamel,
             'primaryKey' => $fields["primaryKey"],
             'tbodyItems' => $tbodyItems,
             'forms' => $forms,
             'showBody' => $showBody,
-            'datatableHeader' => $datatableHeader
+            'inputField' => $inputField,
+            'editField' => $editField
         ];
 
         $indexViewStub = $this->stringReplacer($indexViewStub, $vars);
-        $indexViewFilePath = $viewsDir . "/index.blade.php";
-
-        
-
-        $datatableViewStub = $this->stringReplacer($datatableViewStub, $vars);
-        $datatableViewFilePath = $viewsDir . "/livewire/datatable.blade.php";
-         
+        $indexViewFilePath = $inertiaDir . "/Index.js";
 
         $formViewStub = $this->stringReplacer($formViewStub, $vars);
-        $formViewFilePath = $viewsDir . "/form.blade.php";
+        $formViewFilePath = $inertiaDir . "/Form.js";
 
         $showViewStub = $this->stringReplacer($showViewStub, $vars);
-        $showViewFilePath = $viewsDir . "/show.blade.php";
+        $showViewFilePath = $inertiaDir . "/Show.js";
 
-        $updateViewStub = $this->stringReplacer($updateViewStub, $vars);
-        $updateViewFilePath = $viewsDir . "/edit.blade.php";
+        $updateViewStub = $this->stringReplacer($editViewStub, $vars);
+        $updateViewFilePath = $inertiaDir . "/Edit.js";
 
         $createViewStub = $this->stringReplacer($createViewStub, $vars);
-        $createViewFilePath = $viewsDir . "/create.blade.php";
+        $createViewFilePath = $inertiaDir . "/Create.js";
 
-        
-       
-        //end view
-        
-        //create Livewire datatable
-        $datatableStub = $this->getStub("datatable.php.stub");
-        $datatableStub = $this->stringReplacer($datatableStub, $vars);
-        $datatableFilePath = $livewireDir . "/".$moduleName."Datatable.php";
-        
+
+
+
+
         file_put_contents($controllerFilePath, $stub);
         $this->info("$moduleName CRUD Controller created!");
-        if($writeRoute){
+        if ($writeRoute) {
             $routeStub = file_get_contents($routeStubFile);
             file_put_contents($routesFilePath, $routeStub);
             $this->info("Routes Created!");
         }
         file_put_contents($indexViewFilePath, $indexViewStub);
-        file_put_contents($datatableViewFilePath, $datatableViewStub);
         file_put_contents($formViewFilePath, $formViewStub);
         file_put_contents($showViewFilePath, $showViewStub);
         file_put_contents($updateViewFilePath, $updateViewStub);
         file_put_contents($createViewFilePath, $createViewStub);
-        file_put_contents($datatableFilePath, $datatableStub);
         $this->info("all view created!");
 
         // $this->info($stub);
     }
-    
-    private function createIndexView(){
-        
+
+    private function createIndexView()
+    {
     }
 
-    private function getStubFile($filename){
-        return __DIR__ ."/../../../Bardiz12/Stubs/".$filename;
+    private function getStubFile($filename)
+    {
+        return __DIR__ . "/../../../Bardiz12/Stubs/" . $filename;
     }
 
-    private function getStub($filename){
+    private function getStub($filename)
+    {
         return file_get_contents($this->getStubFile($filename));
     }
 
-    private function stringReplacer($string, $replacement){
-        foreach($replacement as $var => $value){
-            $string = str_replace('{{'.$var.'}}', $value, $string);
+    private function stringReplacer($string, $replacement)
+    {
+        foreach ($replacement as $var => $value) {
+            $string = str_replace('{{' . $var . '}}', $value, $string);
         }
 
         return $string;
@@ -332,51 +320,75 @@ class ModuleGenerateController extends Command
 
         $required = $config['required'] ? " required" : "";
         if ($relation != null) {
-            return '<x-form.input-container>
-            <x-form.label>'.$beautyName.'</x-form.label>
-            <x-select2 :url="route(\''.$moduleSlug.'.combo.read\')" field="'.$field.'" name="'.$field.'" initial-id="{{old(\''.$field.'\',isset($model) ? $model->'.$field.' : null)}}" required></x-select2>
-        </x-form.input-container>';
+            return '<Select2
+                    label="' . $beautyName . '"
+                    name="' . $field . '"
+                    errors={props.errors.' . $field . '}
+                    data={props.ref_' . $relation['ref_table'] . '}
+                    selected={data.' . $field . '}
+                    onChange={selectedOption =>
+                    setData("' . $field . '", selectedOption.value)
+                    }
+                ></Select2>';
         }
 
-        if (in_array($config['tipe'], ["datetime", "date", "time", "boolean", "timestamp"])) {
+        if (in_array($config['tipe'], ["datetime", "date", "time", "boolean", "timestamp","tinyint"])) {
             if ($config['tipe'] == "datetime" || $config['tipe'] == "timestamp") {
-                return '<x-form.input-container>
-                <x-form.label for="'.$field.'">
-                    '.$beautyName.'
-                </x-form.label>
-                <x-form.input name="'.$field.'" value="{{old(\''.$field.'\', isset($model) ? $model->'.$field.' : null)}}" type="datetime-local"'.$required.'/>
-            </x-form.input-container>';
+                return '<DateInput
+                    type="datetime"
+                    label="' . $beautyName . '"
+                    name="' . $field . '"
+                    errors={props.errors.' . $field . '}
+                    value={data.' . $field . '}
+                    onChange={(e,dateString) => setData("' . $field . '", dateString)}
+                    />';
             } else if ($config['tipe'] == "time") {
-                return '<x-form.input-container>
-                <x-form.label for="'.$field.'">
-                    '.$beautyName.'
-                </x-form.label>
-                <x-form.input name="'.$field.'" value="{{old(\''.$field.'\', isset($model) ? $model->'.$field.' : null)}}" type="time"'.$required.'/>
-            </x-form.input-container>';
+                return '<DateInput
+                    type="time"
+                    label="' . $beautyName . '"
+                    name="' . $field . '"
+                    errors={props.errors.' . $field . '}
+                    value={data.' . $field . '}
+                    onChange={(e,dateString) => setData("' . $field . '", dateString)}
+                    />';
             } else if ($config['tipe'] == "date") {
-                return '<x-form.input-container>
-                <x-form.label for="'.$field.'">
-                    '.$beautyName.'
-                </x-form.label>
-                <x-form.input name="'.$field.'" value="{{old(\''.$field.'\', isset($model) ? $model->'.$field.' : null)}}" type="date"'.$required.'/>
-            </x-form.input-container>';
-            } else if ($config['tipe'] == "boolean") {
-                return '<x-form.input-container>
-                <x-form.label for="'.$field.'">
-                    '.$beautyName.'
-                </x-form.label>
-                <x-form.radios name="'.$field.'" :choices="[\'1\' => \'Ya\', \'0\' => \'Tidak\']" value="{{old(\''.$field.'\',isset($model) ? $model->'.$field.' : \'0\')}}"'.$required.'/>
-            </x-form.input-container>';
+                return '<DateInput
+                    type="date"
+                    label="' . $beautyName . '"
+                    name="' . $field . '"
+                    errors={props.errors.' . $field . '}
+                    value={data.' . $field . '}
+                    onChange={(e,dateString) => setData("' . $field . '", dateString)}
+                    />';
+            } else if ($config['tipe'] == "boolean" || $config['tipe'] == "tinyint") {
+                return '<Radio
+                    label="' . $beautyName . '"
+                    name="' . $field . '"
+                    errors={props.errors.' . $field . '}
+                    value={data.' . $field . '}
+                    choises={[
+                    {
+                        key: 0,
+                        value: "Tidak",
+                    },
+                    {
+                        key: 1,
+                        value: "Ya",
+                    },
+                    ]}
+                    onChange={(e) => setData("' . $field . '", e.target.value)}
+                ></Radio>';
             }
         } else {
             $tipe = "";
             if ($config['tipe'] == "text") {
-                return '<x-form.input-container>
-                <x-form.label for="'.$field.'">
-                    '.$beautyName.'
-                </x-form.label>
-                <x-form.text name="'.$field.'" required>{{old(\''.$field.'\', isset($model) ? $model->'.$field.' : null)}}</x-form.text>
-            </x-form.input-container>';
+                return ' <TextareaInput
+                    label="' . $beautyName . '"
+                    name="' . $field . '"
+                    errors={props.errors.' . $field . '}
+                    value={data.' . $field . '}
+                    onChange={e => setData("' . $field . '", e.target.value)}
+                />';
             }
 
             if ($config['tipe'] == "int") {
@@ -384,13 +396,14 @@ class ModuleGenerateController extends Command
             } else {
                 $tipe = "text";
             }
-            return '<x-form.input-container>
-                <x-form.label for="'.$field.'">
-                    '.$beautyName.'
-                </x-form.label>
-                <x-form.input name="'.$field.'" value="{{old(\''.$field.'\', isset($model) ? $model->'.$field.' : null)}}" type="'.$tipe.'"'.$required.'/>
-            </x-form.input-container>';
+            return ' <TextInput
+                type="' . $tipe . '"
+                label="' . $beautyName . '"
+                name="' . $field . '"
+                errors={props.errors.' . $field . '}
+                value={data.' . $field . '}
+                onChange={e => setData("' . $field . '", e.target.value)}
+            />';
         }
     }
-
 }

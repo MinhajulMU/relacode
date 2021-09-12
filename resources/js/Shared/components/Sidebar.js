@@ -1,11 +1,15 @@
 import React from "react";
 import { InertiaLink, usePage } from "@inertiajs/inertia-react";
+import { runInContext } from "lodash";
 function Sidebar() {
   const { auth } = usePage().props;
-  console.log(auth);
+  let pathname = window.location.pathname;
+  pathname.indexOf(1);
+  pathname.toLowerCase();
+  pathname = pathname.split("/")[1];
   return (
     <React.Fragment>
-      <div className="sidebar sidebar-style-2">
+      <div className="sidebar">
         <div className="sidebar-wrapper scrollbar scrollbar-inner">
           <div className="sidebar-content">
             <div className="user">
@@ -34,9 +38,9 @@ function Sidebar() {
                 <div className="collapse in" id="collapseExample">
                   <ul className="nav">
                     <li>
-                      <a href="#profile">
+                      <InertiaLink href={route("dashboard.profile.index")}>
                         <span className="link-collapse">My Profile</span>
-                      </a>
+                      </InertiaLink>
                     </li>
                     <li>
                       <a href="#edit">
@@ -67,35 +71,51 @@ function Sidebar() {
                         {items.menu_utama.length > 0 &&
                           items.menu_utama.map((items_menu, index_menu) => {
                             return (
-                              <li className="nav-item" key={index_menu}>
-                                <InertiaLink
-                                  href={items_menu.url}
-                                  data-toggle={"collapse"+index_menu}
-                                >
-                                  <i className="fas fa-home" />
-                                  <p>{items_menu.nm}</p>
-                                  {items_menu.submenu != null && (
-                                    <span className="caret" />
-                                  )}
-                                </InertiaLink>
-                                {items_menu.submenu != null && (
-                                  <div className={"collapse"+index_menu} id="base">
-                                    <ul className="nav nav-collapse">
-                                      {items_menu.submenu.map(
-                                        (items_submenu, index_submenu) => {
-                                          return (
-                                            <li key={index_submenu}>
-                                              <InertiaLink href={items_submenu.url}>
-                                                <span className="sub-item">
-                                                  {items_submenu.nm}
-                                                </span>
-                                              </InertiaLink>
-                                            </li>
-                                          );
-                                        }
-                                      )}
-                                    </ul>
-                                  </div>
+                              <li
+                                className={
+                                  "nav-item " +
+                                  (items_menu.slug == pathname ? "active" : "")
+                                }
+                                key={index_menu}
+                              >
+                                {items_menu.submenu == null ? (
+                                  <InertiaLink href={items_menu.url}>
+                                    <i className={items_menu.icon} />
+                                    <p>{items_menu.nm} </p>
+                                  </InertiaLink>
+                                ) : (
+                                  <React.Fragment>
+                                    <a
+                                      data-toggle="collapse"
+                                      href={"#base" + index_menu}
+                                    >
+                                      <i className={items_menu.icon} />
+                                      <p>{items_menu.nm}</p>
+                                      <span className="caret" />
+                                    </a>
+                                    <div
+                                      className={"collapse"}
+                                      id={"base" + index_menu}
+                                    >
+                                      <ul className="nav nav-collapse">
+                                        {items_menu.submenu.map(
+                                          (items_submenu, index_submenu) => {
+                                            return (
+                                              <li key={index_submenu}>
+                                                <InertiaLink
+                                                  href={items_submenu.url}
+                                                >
+                                                  <span className="sub-item">
+                                                    {items_submenu.nm}
+                                                  </span>
+                                                </InertiaLink>
+                                              </li>
+                                            );
+                                          }
+                                        )}
+                                      </ul>
+                                    </div>
+                                  </React.Fragment>
                                 )}
                               </li>
                             );
@@ -103,23 +123,6 @@ function Sidebar() {
                       </React.Fragment>
                     );
                   })}
-
-                <li className="nav-item">
-                  <a data-toggle="collapse" href="#base">
-                    <i className="fas fa-layer-group" />
-                    <p>Base</p>
-                    <span className="caret" />
-                  </a>
-                  <div className="collapse" id="base">
-                    <ul className="nav nav-collapse">
-                      <li>
-                        <a href="components/avatars.html">
-                          <span className="sub-item">Avatars</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
               </ul>
             )}
           </div>

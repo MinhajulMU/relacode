@@ -8,7 +8,7 @@ import FlashMessages from '@/Shared/components/FlashMessages';
 import BackButton from '@/Shared/components/BackButton';
 import Radio from '@/Shared/Form/Radio';
 import SubmitButton from '@/Shared/Form/SubmitButton';
-import Form from '@/Pages/Book/Form';
+import Form from "../../../Modules/Book/Inertia/Form";
 
 const Edit = () => {
   const props = usePage().props;
@@ -16,7 +16,8 @@ const Edit = () => {
     title: props.book.title || '',
     description: props.book.description || '',
     id_author: props.book.id_author || '',
-    allow_pinjam: props.book.allow_pinjam
+    allow_pinjam: props.book.allow_pinjam || '',
+    tanggal_pinjam : props.book.tanggal_pinjam || ''
   });
   function handleSubmit(e) {
     e.preventDefault();

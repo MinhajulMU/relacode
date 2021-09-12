@@ -62,6 +62,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'remember' => \Reinink\RememberQueryStrings::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'module.privilege' => \App\Bardiz12\Middleware\ModulePrivilegeMiddleware::class,
     ];
 
     /**

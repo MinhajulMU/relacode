@@ -33,20 +33,24 @@ function Profile() {
                 <div className="u-text">
                   <h4>{auth.user.name}</h4>
                   <p className="text-muted"></p>
-                  <a
-                    href="profile.html"
+                  <InertiaLink
+                    href={route("dashboard.profile.index")}
                     className="btn btn-xs btn-secondary btn-sm"
                   >
                     View Profile
-                  </a>
+                  </InertiaLink>
                 </div>
               </div>
             </li>
             <li>
               <div className="dropdown-divider" />
-              <a className="dropdown-item" href="#">
-                My Profile
-              </a>
+
+              <InertiaLink
+                href={route("dashboard.profile.index")}
+                className="dropdown-item"
+              >
+                <span className="link-collapse">My Profile</span>
+              </InertiaLink>
               <div className="dropdown-divider" />
               <InertiaLink
                 as="button"

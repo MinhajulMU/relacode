@@ -2,150 +2,108 @@
 
 namespace App\Modules\{{moduleName}}\Controllers;
 
-use Illuminate\Http\Request;
-use App\Modules\{{moduleName}}\Models\{{moduleName}};
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 use App\Models\Log;
+use App\Modules\{{moduleName}}\Models\{{moduleName}};
+{{RelationModel}}
 
 class {{moduleName}}Controller extends Controller
 {
-
     protected $title = "{{moduleName}}";
 
     public function __construct()
     {
         $this->model = new {{moduleName}}();
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function index(Request $request)
     {
-        $data = [
-            'model' => $this->model
+        $data['search'] = $request->input('search') == null ? '' : $request->input('search');
+        $data['per_page'] = $request->input('per_page') == null ? 10 :  $request->input('per_page');
+        $data['order_field'] = $request->input('order_field') == null ? 'created_at' : $request->input('order_field');
+        $data['order_mode'] = $request->input('order_mode') == null ? 'desc' : $request->input('order_mode');
+        $data['headerField'] = [
+            [
+                "name" => "No",
+                "field" => null,
+                "sortable" => false,
+            ],
+{{datatableHeader}},
+            [
+                "name" => "Aksi",
+                "field" => null,
+                "sortable" => false,
+            ]
         ];
-        
-        return view('{{moduleName}}::index', $data);
+        $data['data'] = $this->model->searchWithKeywords([
+            "keyword" => $data['search'],
+            "per_page" => $data['per_page'],
+            "fieldOrderBy" => $data['order_field'],
+            "modeOrderBy" => $data['order_mode'],
+        ]);
+        return Inertia::render('{{moduleName}}::Index', $data);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
+    public function create()
     {
-        return view("{{moduleName}}::create");
+        $data['routes']['backUrl'] =  url()->previous() == URL::to('/') || url()->previous() == URL::current() ? URL::route('{{moduleSlug}}.index') : url()->previous();
+        {{RelationReference}}
+        return Inertia::render('{{moduleName}}::Create', $data);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $formData = $request->validate([
 {{storeValidator}}
         ]);
-        
 
-        ${{moduleNameCamel}} = {{moduleName}}::create($formData);
-        $log  = Log::aktivitas('Menambah '.$this->title.' ID = '.${{moduleNameCamel}}->{{primaryKey}});
+        ${{moduleNameCamel}} = $this->model->create($formData);
+        $log  = Log::aktivitas('Menambah ' . $this->title . ' ID = ' . ${{moduleNameCamel}}->{{primaryKey}});
         return redirect()
-                ->route("{{moduleSlug}}.index")
-                ->with('status',['type'=>'success','message' => 'Berhasil menambahkan Data']);
+            ->route("{{moduleSlug}}.index")
+            ->with('success', 'Berhasil menambahkan data!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        ${{moduleNameCamel}} = $this->model->showWithForeign($id);
-        return view("{{moduleName}}::show", ['{{moduleNameCamel}}' => ${{moduleNameCamel}}]);
+        $data['data'] = $this->model->showWithForeign($id);
+        $data['routes']['backUrl'] =  url()->previous() == URL::to('/') || url()->previous() == URL::current() ? URL::route('{{moduleSlug}}.index') : url()->previous();
+        return Inertia::render('{{moduleName}}::Show', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-
-        ${{moduleNameCamel}} = $this->model::findOrFail($id);
-        
-        return view('{{moduleName}}::edit', ['data' => ${{moduleNameCamel}}]);
+        $data['{{moduleNameCamel}}'] = $this->model::findOrFail($id);
+        {{RelationReference}}
+        $data['routes']['backUrl'] =  url()->previous() == URL::to('/') || url()->previous() == URL::current() ? URL::route('{{moduleSlug}}.index') : url()->previous();
+        return Inertia::render('{{moduleName}}::Edit', $data);
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $backLink = getBackLink();
         $formData = $request->validate([
 {{updateValidator}}
         ]);
-
-        ${{moduleNameCamel}} = {{moduleName}}::findOrFail($id);
+        ${{moduleNameCamel}} = $this->model::findOrFail($id);
         ${{moduleNameCamel}}->update($formData);
-
-        $log  = Log::aktivitas('Mengubah '.$this->title.' ID = '.${{moduleNameCamel}}->{{primaryKey}});
-        return ($backLink 
-                ? redirect($backLink)
-                : redirect()->route("{{moduleSlug}}.index"))->with('status',['type'=>'success','message'=>'Berhasil memperbarui Data']);
+        $log  = Log::aktivitas('Mengubah ' . $this->title . ' ID = ' . ${{moduleNameCamel}}->{{primaryKey}});
+        return redirect()
+            ->route("{{moduleSlug}}.index")
+            ->with('success', 'Berhasil memperbarui data!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        ${{moduleNameCamel}} = {{moduleName}}::findOrFail($id);
-        ${{moduleNameCamel}}->delete();
+        $book = $this->model::findOrFail($id);
+        $book->delete();
         $log  = Log::aktivitas('Menghapus '.$this->title.' ID = '.$id);
-        return response()->json(['success'=>true]);
+        return redirect()
+        ->route("{{moduleSlug}}.index")
+        ->with('success', 'Berhasil menghapus data!');
     }
 
-    public function searchCombo(Request $request){
-        $validator = Validator::make($request->all(), [
-            "q" => "sometimes",
-            "count" => "sometimes|numeric",
-            "field" => ['required', 'string'],
-            "initial" => 'nullable',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                "success" => false,
-                "message" => implode("\n", $validator->errors()->all()),
-                "message_type" => "warning"
-            ]);
-        }
-
-        $formData = $validator->validated();
-        $result = $this->model->getComboForeign($formData['field'], $formData);
-
-        return response()->json([
-            "success" => $result !== null,
-            "data" => $result
-        ]);
-    }
 }

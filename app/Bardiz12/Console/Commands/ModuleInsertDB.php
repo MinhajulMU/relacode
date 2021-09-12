@@ -34,16 +34,7 @@ class ModuleInsertDB extends Command
 
     public function handle()
     {
-        //insert dashboard menu
-        // Module::create([
-        //     'slug' => 'dashboard',
-        //     'name' => 'Dashboard',
-        //     'icon' => "fa fa-home",
-        //     'is_show' => true,
-        //     'id_menu_grup' => 1,
-        //     'urutan' => 1,
-        //     'parent_id' => 0
-        // ]);
+
 
         $modules = config("module.modules");
         $moduleDir = config("module.directory");
@@ -58,14 +49,15 @@ class ModuleInsertDB extends Command
                     Module::create([
                         'slug' => $slug,
                         'name' => $name,
-                        'icon' => "fa fa-angle-right",
+                        'icon' => "fa fa-folder",
                         'is_show' => true,
-                        'id_menu_grup' => 1,
+                        'id_menu_grup' => '0ee195cf-24b1-4a57-83fb-4addaebec367',
                         'urutan' => $i,
                         'parent_id' => 0
                     ]);
                 }
             }
         }
+        return $this->info('seed db:generated');
     }
 }

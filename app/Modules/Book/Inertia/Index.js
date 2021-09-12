@@ -1,36 +1,38 @@
-import React, { useState } from 'react';
-import Layout from '@/Shared/Templates/Layout';
-import { InertiaLink, usePage } from '@inertiajs/inertia-react';
-import FlashMessages from '@/Shared/components/FlashMessages';
-import DatatableHeader from '@/Shared/components/DatatableHeader';
-import Pagination from '@/Shared/components/Pagination';
-import FilterDatatable from '@/Shared/components/FilterDatatable';
-import Detail from '@/Shared/components/Action/Detail';
-import Edit from '@/Shared/components/Action/Edit';
-import Delete from '@/Shared/components/Action/Delete';
-import DeleteModal from '@/Shared/components/DeleteModal';
-import { Inertia } from '@inertiajs/inertia';
+import React, { useState } from "react";
+import Layout from "@/Shared/Templates/Layout";
+import { InertiaLink, usePage } from "@inertiajs/inertia-react";
+import FlashMessages from "@/Shared/components/FlashMessages";
+import DatatableHeader from "@/Shared/components/DatatableHeader";
+import Pagination from "@/Shared/components/Pagination";
+import FilterDatatable from "@/Shared/components/FilterDatatable";
+import Detail from "@/Shared/components/Action/Detail";
+import Edit from "@/Shared/components/Action/Edit";
+import Delete from "@/Shared/components/Action/Delete";
+import AllowAction from "@/Shared/components/AllowAction";
+import DeleteModal from "@/Shared/components/DeleteModal";
+import { Inertia } from "@inertiajs/inertia";
+import Moment from 'react-moment';
 
 const Index = () => {
   const props = usePage().props;
   const { headerField, data, order_field, order_mode } = usePage().props;
   const [deleteModal, setDeleteModal] = useState({
     show: false,
-    url: ''
+    url: "",
   });
 
   const handleCloseDeleteModal = () =>
     setDeleteModal({ ...deleteModal, show: false });
-  const handleShowDeleteModal = deleteUrl => {
+  const handleShowDeleteModal = (deleteUrl) => {
     setDeleteModal({
       url: deleteUrl,
-      show: true
+      show: true,
     });
   };
   const handleDeleteAction = () => {
     Inertia.delete(deleteModal.url);
     setDeleteModal({
-      show: false
+      show: false,
     });
   };
 
@@ -55,11 +57,13 @@ const Index = () => {
                   <div className="card-category">Tabel Book</div>
                 </div>
                 <div className="col-6 text-right">
-                  <InertiaLink href={route('book.create')}>
-                    <button className="btn btn-primary btn-round ml-auto">
-                      <i className="fa fa-plus"></i> Tambah Book
-                    </button>
-                  </InertiaLink>
+                  <AllowAction module="book" action="create">
+                    <InertiaLink href={route("book.create")}>
+                      <button className="btn btn-primary btn-round ml-auto">
+                        <i className="fa fa-plus"></i> Tambah Book
+                      </button>
+                    </InertiaLink>
+                  </AllowAction>
                 </div>
               </div>
               <div className="card-body">
@@ -88,27 +92,42 @@ const Index = () => {
                             <td>{items.id_author}</td>
                             <td>{items.title}</td>
                             <td>{items.description}</td>
-                            <td>{items.allow_pinjam == 1 ? 'Ya' : 'Tidak'}</td>
+                            <td>{items.allow_pinjam == 1 ? "Ya" : "Tidak"}</td>
+                            <td>
+                              {items.tanggal_pinjam != null && (<Moment locale="id" format="dddd, LL">{items.tanggal_pinjam}</Moment>)} 
+                            </td>
                             <td>
                               <div className="form-button-action">
-                                <Detail>
-                                  {route('book.show', items.id_book)}
-                                </Detail>
-                                <Edit>{route('book.edit', items.id_book)}</Edit>
-                                <Delete
-                                  url={route(
-                                    'book.destroy',
-                                    items.id_book
-                                  ).toString()}
-                                  handleShowDeleteModal={handleShowDeleteModal}
-                                ></Delete>
+                                <AllowAction module="book" action="read">
+                                  <Detail>
+                                    {route("book.show", items.id_book)}
+                                  </Detail>
+                                </AllowAction>
+
+                                <AllowAction module="book" action="update">
+                                  <Edit>
+                                    {route("book.edit", items.id_book)}
+                                  </Edit>
+                                </AllowAction>
+
+                                <AllowAction module="book" action="delete">
+                                  <Delete
+                                    url={route(
+                                      "book.destroy",
+                                      items.id_book
+                                    ).toString()}
+                                    handleShowDeleteModal={
+                                      handleShowDeleteModal
+                                    }
+                                  ></Delete>
+                                </AllowAction>
                               </div>
                             </td>
                           </tr>
                         ))
                       ) : (
                         <tr>
-                          <td colSpan={'100%'} className="text-center h-96">
+                          <td colSpan={"100%"} className="text-center h-96">
                             <div className="flex items-center justify-center h-96">
                               <div className="space-y-10">
                                 <i className="fa fa-sad-tear fa-3x"></i>
@@ -133,10 +152,14 @@ const Index = () => {
           </div>
         </div>
       </div>
-      <DeleteModal show={deleteModal.show} handleCloseDeleteModal={handleCloseDeleteModal} handleDeleteAction={handleDeleteAction}></DeleteModal>
+      <DeleteModal
+        show={deleteModal.show}
+        handleCloseDeleteModal={handleCloseDeleteModal}
+        handleDeleteAction={handleDeleteAction}
+      ></DeleteModal>
     </React.Fragment>
   );
 };
 
-Index.layout = page => <Layout children={page} title="Book" />;
+Index.layout = (page) => <Layout children={page} title="Book" />;
 export default Index;

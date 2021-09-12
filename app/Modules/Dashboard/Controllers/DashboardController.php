@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\URL;
 use App\Bardiz12\Auth\GenerateMenuUser;
 use App\Bardiz12\Auth\CachePrivileges;
+use App\Modules\UserRole\Models\UserRole;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -38,5 +39,14 @@ class DashboardController extends Controller
             return redirect()->route('dashboard.index')->with('success', 'Anda mengaktifkan Role '.$role->role_name);
         }
         return redirect()->route('dashboard.index')->with('errors',['Error, Gagal mengganti role']);
+    }
+
+    public function profil()
+    {
+        $data = [];
+        $data['role'] = UserRole::where('id_user',Auth::user()->id_user)
+        ->leftJoin('role','role.id_role','=','user_role.id_role')
+        ->get([]);
+        return Inertia::render('Dashboard::Profil', $data);
     }
 }

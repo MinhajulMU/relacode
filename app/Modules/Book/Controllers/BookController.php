@@ -57,6 +57,11 @@ class BookController extends Controller
                 "sortable" => false,
             ],
             [
+                "name" => "Tanggal Pinjam",
+                "field" => 'tanggal_pinjam',
+                "sortable" => true,
+            ],
+            [
                 "name" => "Aksi",
                 "field" => null,
                 "sortable" => false,
@@ -83,7 +88,8 @@ class BookController extends Controller
             "title"       => "required",
             "description" => "required",
             'id_author'   => 'required',
-            'allow_pinjam' => 'required'
+            'allow_pinjam' => 'required',
+            'tanggal_pinjam' => 'required'
         ]);
 
         $book = $this->model->create($formData);
@@ -114,7 +120,8 @@ class BookController extends Controller
             "title"       => "required",
             "description" => "required",
             'id_author'   => 'required',
-            'allow_pinjam' => 'nullable'
+            'allow_pinjam' => 'nullable',
+            'tanggal_pinjam' => 'required'
         ]);
         $book = $this->model::findOrFail($id);
         $book->update($formData);
@@ -134,27 +141,4 @@ class BookController extends Controller
         ->with('success', 'Berhasil menghapus data!');
     }
 
-    public function searchCombo(Request $request){
-        $validator = Validator::make($request->all(), [
-            "q" => "sometimes",
-            "count" => "sometimes|numeric",
-            "field" => ['required', 'string'],
-            "initial" => 'nullable',
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                "success" => false,
-                "message" => implode("\n", $validator->errors()->all()),
-                "message_type" => "warning"
-            ]);
-        }
-
-        $formData = $validator->validated();
-        $result = $this->model->getCombo($formData['field'], $formData);
-
-        return response()->json([
-            "success" => $result !== null,
-            "data" => $result
-        ]);
-    }
 }

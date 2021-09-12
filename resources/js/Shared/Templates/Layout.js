@@ -33,7 +33,7 @@ const Index = ({ title, children }) => {
       <Helmet>
         <title>{title + ' | ' + process.env.MIX_APP_NAME}</title>
       </Helmet>
-      <div className="wrapper overlay-sidebar">
+      <div className="wrapper">
         <div className="main-header">
           {/* Logo Header */}
           <div className="logo-header" data-background-color="blue2">
@@ -60,7 +60,7 @@ const Index = ({ title, children }) => {
               <i className="fa fa-ellipsis-v" />
             </button>
             <div className="nav-toggle">
-              <button className="btn btn-toggle sidenav-overlay-toggler">
+              <button className="btn btn-toggle  toggle-sidebar">
                 <i className="fa fa-bars" />
               </button>
             </div>

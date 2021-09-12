@@ -1,37 +1,39 @@
-import React, { useState } from 'react';
-import Layout from '@/Shared/Templates/Layout';
-import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
-import TextInput from '@/Shared/Form/TextInput';
-import TextareaInput from '@/Shared/Form/TextareaInput';
-import Select2 from '@/Shared/Form/Select2';
-import FlashMessages from '@/Shared/components/FlashMessages';
-import BackButton from '@/Shared/components/BackButton';
-import Radio from '@/Shared/Form/Radio';
-import SubmitButton from '@/Shared/Form/SubmitButton';
-import Form from '@/Pages/Book/Form';
+import React, { useState } from "react";
+import Layout from "@/Shared/Templates/Layout";
+import { InertiaLink, usePage, useForm } from "@inertiajs/inertia-react";
+import TextInput from "@/Shared/Form/TextInput";
+import TextareaInput from "@/Shared/Form/TextareaInput";
+import Select2 from "@/Shared/Form/Select2";
+import FlashMessages from "@/Shared/components/FlashMessages";
+import BackButton from "@/Shared/components/BackButton";
+import Radio from "@/Shared/Form/Radio";
+import SubmitButton from "@/Shared/Form/SubmitButton";
+import Form from "../../../Modules/Module/Inertia/Form";
 
 const Index = () => {
   const props = usePage().props;
+  console.log(props);
   const { data, setData, errors, post, processing } = useForm({
-    title: '',
-    description: '',
-    id_author: '',
-    allow_pinjam: ''
+    name: "",
+    icon: "",
+    slug: "",
+    is_show: "",
+    id_menu_grup: "",
+    urutan: "",
+    parent_id: props.parent_id,
   });
   function handleSubmit(e) {
     e.preventDefault();
-    post(route('book.store'));
+    post(route("module.store"));
   }
-  
+
   return (
     <React.Fragment>
       <div className="page-inner">
         <div className="page-header row">
-          <div className="col-12">
-            {/* <FlashMessages /> */}
-          </div>
+          <div className="col-12"><FlashMessages /></div>
           <div className="col-12 col-sm-6">
-            <h4 className="page-title">Tambah Book</h4>
+            <h4 className="page-title">Tambah Module</h4>
           </div>
           <div className="col-12 col-sm-6 text-right">
             <BackButton>{props.routes.backUrl}</BackButton>
@@ -42,7 +44,7 @@ const Index = () => {
             <div className="card">
               <div className="card-header row">
                 <div className="col-12">
-                  <div className="card-title">Form Book</div>
+                  <div className="card-title">Form Module</div>
                   <div className="card-category">
                     Isi semua form dibawah dengan benar
                   </div>
@@ -51,7 +53,11 @@ const Index = () => {
               </div>
               <div className="card-body">
                 <form onSubmit={handleSubmit}>
-                  <Form data={data} setData={setData} processing={processing}></Form>
+                  <Form
+                    data={data}
+                    setData={setData}
+                    processing={processing}
+                  ></Form>
                 </form>
               </div>
               <div className="card-footer"></div>
@@ -63,5 +69,5 @@ const Index = () => {
   );
 };
 
-Index.layout = page => <Layout children={page} title="Tambah Book" />;
+Index.layout = (page) => <Layout children={page} title="Tambah Module" />;
 export default Index;

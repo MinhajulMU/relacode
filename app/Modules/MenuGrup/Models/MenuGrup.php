@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use \App\Bardiz12\Eloquent\UseUUID;
 use App\Bardiz12\BaseModel;
 
-class MenuGrup extends BaseModel
-{
+class MenuGrup extends BaseModel{
     use UseUUID;
     protected $table = 'menu_grup';
     protected $primaryKey = "id_menu_grup";
@@ -18,7 +17,13 @@ class MenuGrup extends BaseModel
         "urutan"
     ];
 
-    protected $relationField = [];
+    protected $relationField = [
 
-    protected $relationFieldInject = [];
+    ];
+    
+    protected $relationFieldInject = [
+
+    ];
+
+    
 }
