@@ -98,7 +98,32 @@ var map = {
 	"./Dashboard/Inertia/Profil.js": [
 		"./app/Modules/Dashboard/Inertia/Profil.js",
 		"/js/vendor",
-		"app_Modules_Dashboard_Inertia_Profil_js"
+		"app_Modules_Dashboard_Inertia_Profil_js-node_modules_moment_locale_sync_recursive_"
+	],
+	"./Dokumen/Inertia/Create.js": [
+		"./app/Modules/Dokumen/Inertia/Create.js",
+		"/js/vendor",
+		"app_Modules_Dokumen_Inertia_Create_js"
+	],
+	"./Dokumen/Inertia/Edit.js": [
+		"./app/Modules/Dokumen/Inertia/Edit.js",
+		"/js/vendor",
+		"app_Modules_Dokumen_Inertia_Edit_js"
+	],
+	"./Dokumen/Inertia/Form.js": [
+		"./app/Modules/Dokumen/Inertia/Form.js",
+		"/js/vendor",
+		"app_Modules_Dokumen_Inertia_Form_js"
+	],
+	"./Dokumen/Inertia/Index.js": [
+		"./app/Modules/Dokumen/Inertia/Index.js",
+		"/js/vendor",
+		"app_Modules_Dokumen_Inertia_Index_js"
+	],
+	"./Dokumen/Inertia/Show.js": [
+		"./app/Modules/Dokumen/Inertia/Show.js",
+		"/js/vendor",
+		"app_Modules_Dokumen_Inertia_Show_js"
 	],
 	"./Log/Inertia/Create.js": [
 		"./app/Modules/Log/Inertia/Create.js",
@@ -174,6 +199,31 @@ var map = {
 		"./app/Modules/Module/Inertia/Show.js",
 		"/js/vendor",
 		"app_Modules_Module_Inertia_Show_js"
+	],
+	"./RefJnsDokumen/Inertia/Create.js": [
+		"./app/Modules/RefJnsDokumen/Inertia/Create.js",
+		"/js/vendor",
+		"app_Modules_RefJnsDokumen_Inertia_Create_js"
+	],
+	"./RefJnsDokumen/Inertia/Edit.js": [
+		"./app/Modules/RefJnsDokumen/Inertia/Edit.js",
+		"/js/vendor",
+		"app_Modules_RefJnsDokumen_Inertia_Edit_js"
+	],
+	"./RefJnsDokumen/Inertia/Form.js": [
+		"./app/Modules/RefJnsDokumen/Inertia/Form.js",
+		"/js/vendor",
+		"app_Modules_RefJnsDokumen_Inertia_Form_js"
+	],
+	"./RefJnsDokumen/Inertia/Index.js": [
+		"./app/Modules/RefJnsDokumen/Inertia/Index.js",
+		"/js/vendor",
+		"app_Modules_RefJnsDokumen_Inertia_Index_js"
+	],
+	"./RefJnsDokumen/Inertia/Show.js": [
+		"./app/Modules/RefJnsDokumen/Inertia/Show.js",
+		"/js/vendor",
+		"app_Modules_RefJnsDokumen_Inertia_Show_js"
 	],
 	"./Role/Inertia/Create.js": [
 		"./app/Modules/Role/Inertia/Create.js",

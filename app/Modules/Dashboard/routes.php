@@ -22,4 +22,6 @@ Route::group(['namespace' => 'App\Modules\\'.$module.'\Controllers','middleware'
 Route::group(['namespace' => 'App\Modules\\'.$module.'\Controllers', 'middleware' => ['web','auth','module.privilege']], function () use ($slug, $module) {
     Route::get("profile/index", $module . "Controller@profil")->name("dashboard.profile.index");
     Route::post("profile/edit", $module . "Controller@editProfil")->name("dashboard.profile.update");
+    Route::put('profile/{id_user}',$module . "Controller@updateProfil")->name("dashboard.profile-update.update");
+
 });

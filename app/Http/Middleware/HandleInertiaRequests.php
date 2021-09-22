@@ -7,6 +7,7 @@ use Inertia\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class HandleInertiaRequests extends Middleware
 {
     /**
@@ -46,6 +47,7 @@ class HandleInertiaRequests extends Middleware
                     'menu' =>  $request->session()->get('menu') == null ? null : $request->session()->get('menu'),
                     'role_privileges' => $request->session()->get('role_privileges') == null ? null : $request->session()->get('role_privileges'),
                     'roles' => $request->session()->get('roles') == null ? null : $request->session()->get('roles'),
+                    'profile_photo' => $request->session()->get('profile_photo')
                 ];
             },
             'flash' => function () use ($request) {

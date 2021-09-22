@@ -6,6 +6,7 @@ import { Inertia } from "@inertiajs/inertia";
 
 const Index = () => {
   const props = usePage().props;
+  console.log(props);
   return (
     <React.Fragment>
       <div className="panel-header bg-primary-gradient">

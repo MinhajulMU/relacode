@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '1637089a19f647b27fd6ceda73915fe8791b02a5',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -485,12 +485,12 @@
     ),
     'laravel/laravel' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '1637089a19f647b27fd6ceda73915fe8791b02a5',
     ),
     'laravel/tinker' => 
     array (
@@ -509,6 +509,15 @@
       array (
       ),
       'reference' => '07d725813350c695c779382cbd6dac0ab8665537',
+    ),
+    'laravolt/avatar' => 
+    array (
+      'pretty_version' => '4.1.4',
+      'version' => '4.1.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'f50192566e6e4db7fc9623c1c925642acca5ac6a',
     ),
     'league/commonmark' => 
     array (

@@ -39,7 +39,7 @@ class RolePrivilegeController extends Controller
             {
                 $w->where($k,'like','%'.$v.'%');
             }
-        })->get();
+        })->orderBy('name','asc')->get();
         $modules = [];
         foreach ($module as $item) {
             $slug = $item->id_module;

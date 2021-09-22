@@ -27,7 +27,7 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
-
+    'upload_path' => storage_path('app/public/uploads/'),
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -179,7 +179,8 @@ return [
          * App
          */
         App\Bardiz12\ModulesServiceProvider::class,
-        
+        Laravolt\Avatar\ServiceProvider::class,
+
 
     ],
 
@@ -231,6 +232,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Avatar'    => Laravolt\Avatar\Facade::class,
 
     ],
 

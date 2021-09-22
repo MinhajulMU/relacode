@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Files;
 
 /**
  * BaseModel
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BaseModel extends Model
 {
 
-    use SoftDeletes;
+    use SoftDeletes,Files;
 
     /**
      * author @bardiz12

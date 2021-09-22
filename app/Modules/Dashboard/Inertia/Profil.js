@@ -1,12 +1,27 @@
 import React, { useState } from "react";
 import Layout from "@/Shared/Templates/Layout";
-import { InertiaLink, usePage } from "@inertiajs/inertia-react";
+import { InertiaLink, usePage, useForm } from "@inertiajs/inertia-react";
 import FlashMessages from "@/Shared/components/FlashMessages";
 import { Inertia } from "@inertiajs/inertia";
+import TextInput from "@/Shared/Form/TextInput";
+import FileInput from "@/Shared/Form/FileInput";
+import SubmitButton from "@/Shared/Form/SubmitButton";
+import Moment from "react-moment";
+import ReactHtmlParser from "react-html-parser";
 
 const Profil = () => {
   const props = usePage().props;
+  const { data, setData, errors, post, processing } = useForm({
+    name: props.user.name || "",
+    email: props.user.email || "",
+    photo: '',
+    _method: 'PUT'
+  });
   console.log(props);
+  function handleSubmit(e) {
+    e.preventDefault();
+    post(route("dashboard.profile-update.update", props.user.id_user));
+  }
   return (
     <React.Fragment>
       <div className="panel-header bg-primary-gradient">
@@ -39,7 +54,7 @@ const Profil = () => {
                             <div className="profile-picture">
                               <div className="avatar avatar-xl">
                                 <img
-                                  src="/images/profile.jpg"
+                                  src={window.location.origin+"/"+props.auth.profile_photo}
                                   alt="..."
                                   className="avatar-img rounded-circle"
                                 />
@@ -49,11 +64,20 @@ const Profil = () => {
                           <div className="card-body">
                             <div className="user-profile text-center pt-5">
                               <div className="name">{props.auth.user.name}</div>
-                              <div className="job">Frontend Developer</div>
-                              <div className="desc">
-                              {props.auth.user.email}
+                              <div className="job">
+                                {props.role.length > 0 &&
+                                  props.role.map((items, index) => (
+                                    <span
+                                      className="badge badge-success mr-1"
+                                      key={index}
+                                    >
+                                      {items.role_name}
+                                    </span>
+                                  ))}
                               </div>
-                              
+                              <div className="desc">
+                                {props.auth.user.email}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -69,6 +93,7 @@ const Profil = () => {
               <div className="col-sm-12 col-md-12">
                 <div className="card card-stats card-round">
                   <div className="card-body">
+                    <FlashMessages />
                     <div>
                       <ul
                         className="nav nav-pills nav-secondary"
@@ -78,19 +103,6 @@ const Profil = () => {
                         <li className="nav-item">
                           <a
                             className="nav-link active"
-                            id="pills-home-tab"
-                            data-toggle="pill"
-                            href="#pills-home"
-                            role="tab"
-                            aria-controls="pills-home"
-                            aria-selected="true"
-                          >
-                            Log
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a
-                            className="nav-link"
                             id="pills-profile-tab"
                             data-toggle="pill"
                             href="#pills-profile"
@@ -101,6 +113,19 @@ const Profil = () => {
                             Edit Profile
                           </a>
                         </li>
+                        <li className="nav-item">
+                          <a
+                            className="nav-link"
+                            id="pills-home-tab"
+                            data-toggle="pill"
+                            href="#pills-home"
+                            role="tab"
+                            aria-controls="pills-home"
+                            aria-selected="true"
+                          >
+                            Log
+                          </a>
+                        </li>
                       </ul>
                       <hr></hr>
                       <div
@@ -108,39 +133,89 @@ const Profil = () => {
                         id="pills-tabContent"
                       >
                         <div
-                          className="tab-pane fade show active"
+                          className="tab-pane fade "
                           id="pills-home"
                           role="tabpanel"
                           aria-labelledby="pills-home-tab"
                         >
                           <ul className="timeline">
-                            <li>
-                              <div className="timeline-badge warning">
-                                <i className="flaticon-alarm-1" />
-                              </div>
-                              <div className="timeline-panel">
-                                <div className="timeline-heading">
-                                  <h4 className="timeline-title">
-                                    Mussum ipsum cacilds
-                                  </h4>
-                                  <p>
-                                    <small className="text-muted">
-                                      <i className="flaticon-message" /> 11
-                                      hours ago via Twitter
-                                    </small>
-                                  </p>
-                                </div>
-                              </div>
-                            </li>
+                            {props.log.length > 0 &&
+                              props.log.map((items, index) => {
+                                return (
+                                  <li
+                                    key={index}
+                                    className={
+                                      index % 2 == 0 ? "timeline-inverted" : ""
+                                    }
+                                  >
+                                    <div className="timeline-badge warning">
+                                      <i className="flaticon-alarm-1" />
+                                    </div>
+                                    <div className="timeline-panel">
+                                      <div className="timeline-heading">
+                                        <h4 className="timeline-title">
+                                          {items.aktifitas}
+                                        </h4>
+                                        <p>
+                                          <small className="text-muted">
+                                            <i className="flaticon-message" />{" "}
+                                            <Moment
+                                              locale="id"
+                                              format="dddd, LLL"
+                                            >
+                                              {items.created_at}
+                                            </Moment>
+                                          </small>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                );
+                              })}
                           </ul>
                         </div>
                         <div
-                          className="tab-pane fade"
+                          className="tab-pane fade show active"
                           id="pills-profile"
                           role="tabpanel"
                           aria-labelledby="pills-profile-tab"
                         >
-                         
+                          <form onSubmit={handleSubmit}>
+                            <TextInput
+                              type="text"
+                              label="Nama Lengkap"
+                              name="name"
+                              errors={props.errors.name}
+                              value={data.name}
+                              placeholder="Masukkan nama lengkap"
+                              onChange={(e) => setData("name", e.target.value)}
+                            />
+                            <TextInput
+                              type="email"
+                              label="Email Address"
+                              name="email"
+                              errors={props.errors.email}
+                              value={data.email}
+                              placeholder="Masukkan email address"
+                              onChange={(e) => setData("email", e.target.value)}
+                            />
+                            <FileInput
+                              className="w-full pb-8 pr-6 lg:w-1/2"
+                              label="Photo"
+                              name="photo"
+                              accept="image/*"
+                              errors={props.errors.photo}
+                              value={data.photo}
+                              onChange={(photo) => setData("photo", photo)}
+                            />
+                            {(props.dokumen != null ? ReactHtmlParser("<span class='badge badge-success'>"+props.dokumen.file_name+"</span>") : "")}
+                            <div className="form-group">
+                              <SubmitButton
+                                name="Simpan"
+                                isLoading={processing}
+                              ></SubmitButton>
+                            </div>
+                          </form>
                         </div>
                       </div>
                     </div>

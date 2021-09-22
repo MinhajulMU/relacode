@@ -15,7 +15,7 @@ function Sidebar() {
             <div className="user">
               <div className="avatar-sm float-left mr-2">
                 <img
-                  src="/images/profile.jpg"
+                  src={window.location.origin+"/"+auth.profile_photo}
                   alt="..."
                   className="avatar-img rounded-circle"
                 />
