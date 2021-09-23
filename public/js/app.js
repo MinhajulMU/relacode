@@ -310,56 +310,6 @@ var map = {
 		"/js/vendor",
 		"resources_js_Pages_Auth_Login_js"
 	],
-	"./Book/Create": [
-		"./resources/js/Pages/Book/Create.js",
-		"/js/vendor",
-		"resources_js_Pages_Book_Create_js"
-	],
-	"./Book/Create.js": [
-		"./resources/js/Pages/Book/Create.js",
-		"/js/vendor",
-		"resources_js_Pages_Book_Create_js"
-	],
-	"./Book/Edit": [
-		"./resources/js/Pages/Book/Edit.js",
-		"/js/vendor",
-		"resources_js_Pages_Book_Edit_js"
-	],
-	"./Book/Edit.js": [
-		"./resources/js/Pages/Book/Edit.js",
-		"/js/vendor",
-		"resources_js_Pages_Book_Edit_js"
-	],
-	"./Book/Form": [
-		"./resources/js/Pages/Book/Form.js",
-		"/js/vendor",
-		"resources_js_Pages_Book_Form_js"
-	],
-	"./Book/Form.js": [
-		"./resources/js/Pages/Book/Form.js",
-		"/js/vendor",
-		"resources_js_Pages_Book_Form_js"
-	],
-	"./Book/Index": [
-		"./resources/js/Pages/Book/Index.js",
-		"/js/vendor",
-		"resources_js_Pages_Book_Index_js"
-	],
-	"./Book/Index.js": [
-		"./resources/js/Pages/Book/Index.js",
-		"/js/vendor",
-		"resources_js_Pages_Book_Index_js"
-	],
-	"./Book/Show": [
-		"./resources/js/Pages/Book/Show.js",
-		"/js/vendor",
-		"resources_js_Pages_Book_Show_js"
-	],
-	"./Book/Show.js": [
-		"./resources/js/Pages/Book/Show.js",
-		"/js/vendor",
-		"resources_js_Pages_Book_Show_js"
-	],
 	"./Error": [
 		"./resources/js/Pages/Error.js",
 		"/js/vendor",

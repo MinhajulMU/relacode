@@ -37,9 +37,9 @@ const Index = ({ title, children }) => {
         <div className="main-header">
           {/* Logo Header */}
           <div className="logo-header" data-background-color="blue2">
-            <a href="index.html" className="logo">
+            <a href={route('dashboard.index')} className="logo">
               <img
-                src="/images/logo.svg"
+                src={process.env.MIX_APP_LOGO}
                 alt="navbar brand"
                 className="navbar-brand"
               />

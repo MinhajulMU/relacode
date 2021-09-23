@@ -6,7 +6,6 @@ import { Inertia } from "@inertiajs/inertia";
 
 const Index = () => {
   const props = usePage().props;
-  console.log(props);
   return (
     <React.Fragment>
       <div className="panel-header bg-primary-gradient">
@@ -26,7 +25,7 @@ const Index = () => {
               <div className="card-body">
                 <FlashMessages></FlashMessages>
                 <div className="numbers">
-                  <h4 className="card-title">
+                  <h4 className="card-title">{process.env.MIX_APP_LOGO}
                     Hi <b>{props.auth.user.name}!</b>, Selamat Datang di {process.env.MIX_APP_NAME}.
                     Anda login sebagai <b>{props.auth.active_role.role_name}</b>
                   </h4>

@@ -60,6 +60,10 @@ Run artisan server:
 php artisan serve
 ```
 
+```sh
+php artisan storage:link
+```
+
 You're ready to go! [Visit Relacode](http://127.0.0.1:8000/) in your browser, and login with:
 
 - **Username:** admin@admin.com
