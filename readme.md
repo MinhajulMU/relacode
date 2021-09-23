@@ -1,18 +1,17 @@
-# Ping CRM React
+# RELACODE (React Laravel Code Generator)
 
-A demo application to illustrate how [Inertia.js](https://inertiajs.com/) works with [Laravel](https://laravel.com/) and [React](https://reactjs.org/).
+A crud code generator that uses [Inertia.js](https://inertiajs.com/) works with [Laravel](https://laravel.com/) and [React](https://reactjs.org/).
 
-> This is a port of the original [Ping CRM](https://github.com/inertiajs/pingcrm) written in Laravel and Vue.
+> This is a modification from original [Ping CRM](https://github.com/Landish/pingcrm-react) written in Laravel and React.
 
-![](https://raw.githubusercontent.com/landish/pingcrm-react/master/screenshot.png)
 
 ## Installation
 
 Clone the repo locally:
 
 ```sh
-git clone https://github.com/landish/pingcrm-react.git
-cd pingcrm-react
+git clone git@github.com:MinhajulMU/relacode.git
+cd relacode
 ```
 
 Install PHP dependencies:
@@ -45,23 +44,15 @@ Generate application key:
 php artisan key:generate
 ```
 
-Create an SQLite database. You can also use another database (MySQL, Postgres), simply update your configuration accordingly.
+Create a MySQl database. You can also use another database (SQLite, Postgres), simply update your configuration accordingly.
+
+
+Restore database
 
 ```sh
-touch database/database.sqlite
+mysql -u [user] -p dump-laravel-react-crm.sql < [filename].sql
 ```
-
-Run database migrations:
-
-```sh
-php artisan migrate
-```
-
-Run database seeder:
-
-```sh
-php artisan db:seed
-```
+the database already includes the basic configuration of the application
 
 Run artisan server:
 
@@ -69,21 +60,23 @@ Run artisan server:
 php artisan serve
 ```
 
-You're ready to go! [Visit Ping CRM](http://127.0.0.1:8000/) in your browser, and login with:
+You're ready to go! [Visit Relacode](http://127.0.0.1:8000/) in your browser, and login with:
 
-- **Username:** johndoe@example.com
+- **Username:** admin@admin.com
 - **Password:** secret
 
-## Running tests
+## Run CRUD Generator
 
-To run the Ping CRM tests, run:
+To run crud generator, run this in your terminal:
 
 ```
-phpunit
+php artisan modules:make [table_name]
 ```
+
+Command will generate basic crud code, crud uses privileged permissions for each user and primary key settings using uuid
 
 ## Credits
 
-- Original work by Jonathan Reinink (@reinink) and contributors
-- Port to Ruby on Rails by Georg Ledermann (@ledermann)
-- Port to React by Lado Lomidze (@landish)
+- Original work by Landish PingCRM React
+- Free Theme by ThemeKita
+- Code Generator Inspiration By Bardiz12
