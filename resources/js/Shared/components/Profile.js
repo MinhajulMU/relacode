@@ -13,7 +13,7 @@ function Profile() {
         >
           <div className="avatar-sm">
             <img
-              src={window.location.origin+"/"+auth.profile_photo}
+              src={auth.profile_photo}
               alt="..."
               className="avatar-img rounded-circle"
             />
@@ -25,7 +25,7 @@ function Profile() {
               <div className="user-box">
                 <div className="avatar-lg">
                   <img
-                    src={window.location.origin+"/"+auth.profile_photo}
+                    src={auth.profile_photo}
                     alt="image profile"
                     className="avatar-img rounded"
                   />

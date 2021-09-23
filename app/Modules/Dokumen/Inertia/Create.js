@@ -1,32 +1,32 @@
-import React, { useState } from 'react';
-import Layout from '@/Shared/Templates/Layout';
-import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
-import TextInput from '@/Shared/Form/TextInput';
-import TextareaInput from '@/Shared/Form/TextareaInput';
-import Select2 from '@/Shared/Form/Select2';
-import FlashMessages from '@/Shared/components/FlashMessages';
-import BackButton from '@/Shared/components/BackButton';
-import Radio from '@/Shared/Form/Radio';
-import SubmitButton from '@/Shared/Form/SubmitButton';
+import React, { useState } from "react";
+import Layout from "@/Shared/Templates/Layout";
+import { InertiaLink, usePage, useForm } from "@inertiajs/inertia-react";
+import TextInput from "@/Shared/Form/TextInput";
+import TextareaInput from "@/Shared/Form/TextareaInput";
+import Select2 from "@/Shared/Form/Select2";
+import FlashMessages from "@/Shared/components/FlashMessages";
+import BackButton from "@/Shared/components/BackButton";
+import Radio from "@/Shared/Form/Radio";
+import SubmitButton from "@/Shared/Form/SubmitButton";
 import Form from "../../../Modules/Dokumen/Inertia/Form";
 
 const Index = () => {
   const props = usePage().props;
   const { data, setData, errors, post, processing } = useForm({
-    deskripsi : "",
-file_name : "",
-file_path : "",
-file_size : "",
-file_type : "",
-id_jns_dokumen : "",
-id_model : "",
-model : "",
+    deskripsi: "",
+    file_name: "",
+    file_path: "",
+    file_size: "",
+    file_type: "",
+    id_jns_dokumen: "",
+    id_model: "",
+    model: "",
   });
   function handleSubmit(e) {
     e.preventDefault();
-    post(route('dokumen.store'));
+    post(route("dokumen.store"));
   }
-  
+
   return (
     <React.Fragment>
       <div className="page-inner">
@@ -55,7 +55,11 @@ model : "",
               </div>
               <div className="card-body">
                 <form onSubmit={handleSubmit}>
-                  <Form data={data} setData={setData} processing={processing}></Form>
+                  <Form
+                    data={data}
+                    setData={setData}
+                    processing={processing}
+                  ></Form>
                 </form>
               </div>
               <div className="card-footer"></div>
@@ -67,5 +71,5 @@ model : "",
   );
 };
 
-Index.layout = page => <Layout children={page} title="Tambah Dokumen" />;
+Index.layout = (page) => <Layout children={page} title="Tambah Dokumen" />;
 export default Index;

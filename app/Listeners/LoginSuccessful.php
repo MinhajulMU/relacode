@@ -39,7 +39,7 @@ class LoginSuccessful
         if ($dokumen == null) {
             $profile_photo = Avatar::create($user->name)->toBase64();
         }else{
-            $profile_photo = 'storage/uploads/'.$dokumen->file_path.$dokumen->file_name;
+            $profile_photo = url('/storage/uploads/'.$dokumen->file_path.$dokumen->file_name);
         }
         $roles = $user->roles()->select(['role.id_role','role_name','role_slug'])->get();
         session()->put('profile_photo',$profile_photo);

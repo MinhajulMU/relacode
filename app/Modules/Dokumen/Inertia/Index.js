@@ -88,14 +88,14 @@ const Index = () => {
                                 index +
                                 1}
                             </td>
-                                    <td>{items.deskripsi}</td>
-        <td>{items.file_name}</td>
-        <td>{items.file_path}</td>
-        <td>{items.file_size}</td>
-        <td>{items.file_type}</td>
-        <td>{items.id_jns_dokumen}</td>
-        <td>{items.id_model}</td>
-        <td>{items.model}</td>
+                            <td>{items.deskripsi}</td>
+                            <td>{items.file_name}</td>
+                            <td>{items.file_path}</td>
+                            <td>{items.file_size}</td>
+                            <td>{items.file_type}</td>
+                            <td>{items.id_jns_dokumen}</td>
+                            <td>{items.id_model}</td>
+                            <td>{items.model}</td>
                             <td>
                               <div className="form-button-action">
                                 <AllowAction module="dokumen" action="read">

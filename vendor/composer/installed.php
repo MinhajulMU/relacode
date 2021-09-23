@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '1637089a19f647b27fd6ceda73915fe8791b02a5',
+    'reference' => 'b89b11cf5dda465a430d970a4bffd713b337819a',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -490,7 +490,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '1637089a19f647b27fd6ceda73915fe8791b02a5',
+      'reference' => 'b89b11cf5dda465a430d970a4bffd713b337819a',
     ),
     'laravel/tinker' => 
     array (
@@ -1185,6 +1185,15 @@
       array (
       ),
       'reference' => '8567e70d03081cbc04e35eb3fa7389d06816196e',
+    ),
+    'spatie/db-dumper' => 
+    array (
+      'pretty_version' => '2.21.1',
+      'version' => '2.21.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '05e5955fb882008a8947c5a45146d86cfafa10d1',
     ),
     'swiftmailer/swiftmailer' => 
     array (

@@ -15,80 +15,30 @@
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var map = {
-	"./Author2/Inertia/Create.js": [
-		"./app/Modules/Author2/Inertia/Create.js",
+	"./BackupDb/Inertia/Edit.js": [
+		"./app/Modules/BackupDb/Inertia/Edit.js",
 		"/js/vendor",
-		"app_Modules_Author2_Inertia_Create_js"
+		"app_Modules_BackupDb_Inertia_Edit_js"
 	],
-	"./Author2/Inertia/Edit.js": [
-		"./app/Modules/Author2/Inertia/Edit.js",
+	"./BackupDb/Inertia/Form.js": [
+		"./app/Modules/BackupDb/Inertia/Form.js",
 		"/js/vendor",
-		"app_Modules_Author2_Inertia_Edit_js"
+		"app_Modules_BackupDb_Inertia_Form_js"
 	],
-	"./Author2/Inertia/Form.js": [
-		"./app/Modules/Author2/Inertia/Form.js",
+	"./BackupDb/Inertia/Index.js": [
+		"./app/Modules/BackupDb/Inertia/Index.js",
 		"/js/vendor",
-		"app_Modules_Author2_Inertia_Form_js"
+		"app_Modules_BackupDb_Inertia_Index_js-node_modules_moment_locale_sync_recursive_"
 	],
-	"./Author2/Inertia/Index.js": [
-		"./app/Modules/Author2/Inertia/Index.js",
+	"./BackupDb/Inertia/Restore.js": [
+		"./app/Modules/BackupDb/Inertia/Restore.js",
 		"/js/vendor",
-		"app_Modules_Author2_Inertia_Index_js"
+		"app_Modules_BackupDb_Inertia_Restore_js"
 	],
-	"./Author2/Inertia/Show.js": [
-		"./app/Modules/Author2/Inertia/Show.js",
+	"./BackupDb/Inertia/Show.js": [
+		"./app/Modules/BackupDb/Inertia/Show.js",
 		"/js/vendor",
-		"app_Modules_Author2_Inertia_Show_js"
-	],
-	"./Book/Inertia/Create.js": [
-		"./app/Modules/Book/Inertia/Create.js",
-		"/js/vendor",
-		"app_Modules_Book_Inertia_Create_js"
-	],
-	"./Book/Inertia/Edit.js": [
-		"./app/Modules/Book/Inertia/Edit.js",
-		"/js/vendor",
-		"app_Modules_Book_Inertia_Edit_js"
-	],
-	"./Book/Inertia/Form.js": [
-		"./app/Modules/Book/Inertia/Form.js",
-		"/js/vendor",
-		"app_Modules_Book_Inertia_Form_js"
-	],
-	"./Book/Inertia/Index.js": [
-		"./app/Modules/Book/Inertia/Index.js",
-		"/js/vendor",
-		"app_Modules_Book_Inertia_Index_js-node_modules_moment_locale_sync_recursive_"
-	],
-	"./Book/Inertia/Show.js": [
-		"./app/Modules/Book/Inertia/Show.js",
-		"/js/vendor",
-		"app_Modules_Book_Inertia_Show_js"
-	],
-	"./Book2/Inertia/Create.js": [
-		"./app/Modules/Book2/Inertia/Create.js",
-		"/js/vendor",
-		"app_Modules_Book2_Inertia_Create_js"
-	],
-	"./Book2/Inertia/Edit.js": [
-		"./app/Modules/Book2/Inertia/Edit.js",
-		"/js/vendor",
-		"app_Modules_Book2_Inertia_Edit_js"
-	],
-	"./Book2/Inertia/Form.js": [
-		"./app/Modules/Book2/Inertia/Form.js",
-		"/js/vendor",
-		"app_Modules_Book2_Inertia_Form_js"
-	],
-	"./Book2/Inertia/Index.js": [
-		"./app/Modules/Book2/Inertia/Index.js",
-		"/js/vendor",
-		"app_Modules_Book2_Inertia_Index_js"
-	],
-	"./Book2/Inertia/Show.js": [
-		"./app/Modules/Book2/Inertia/Show.js",
-		"/js/vendor",
-		"app_Modules_Book2_Inertia_Show_js"
+		"app_Modules_BackupDb_Inertia_Show_js"
 	],
 	"./Dashboard/Inertia/Index.js": [
 		"./app/Modules/Dashboard/Inertia/Index.js",
@@ -410,46 +360,6 @@ var map = {
 		"/js/vendor",
 		"resources_js_Pages_Book_Show_js"
 	],
-	"./Contacts/Create": [
-		"./resources/js/Pages/Contacts/Create.js",
-		"/js/vendor",
-		"resources_js_Pages_Contacts_Create_js"
-	],
-	"./Contacts/Create.js": [
-		"./resources/js/Pages/Contacts/Create.js",
-		"/js/vendor",
-		"resources_js_Pages_Contacts_Create_js"
-	],
-	"./Contacts/Edit": [
-		"./resources/js/Pages/Contacts/Edit.js",
-		"/js/vendor",
-		"resources_js_Pages_Contacts_Edit_js"
-	],
-	"./Contacts/Edit.js": [
-		"./resources/js/Pages/Contacts/Edit.js",
-		"/js/vendor",
-		"resources_js_Pages_Contacts_Edit_js"
-	],
-	"./Contacts/Index": [
-		"./resources/js/Pages/Contacts/Index.js",
-		"/js/vendor",
-		"resources_js_Pages_Contacts_Index_js"
-	],
-	"./Contacts/Index.js": [
-		"./resources/js/Pages/Contacts/Index.js",
-		"/js/vendor",
-		"resources_js_Pages_Contacts_Index_js"
-	],
-	"./Dashboard/Index": [
-		"./resources/js/Pages/Dashboard/Index.js",
-		"/js/vendor",
-		"resources_js_Pages_Dashboard_Index_js"
-	],
-	"./Dashboard/Index.js": [
-		"./resources/js/Pages/Dashboard/Index.js",
-		"/js/vendor",
-		"resources_js_Pages_Dashboard_Index_js"
-	],
 	"./Error": [
 		"./resources/js/Pages/Error.js",
 		"/js/vendor",
@@ -459,86 +369,6 @@ var map = {
 		"./resources/js/Pages/Error.js",
 		"/js/vendor",
 		"resources_js_Pages_Error_js"
-	],
-	"./Organizations/Create": [
-		"./resources/js/Pages/Organizations/Create.js",
-		"/js/vendor",
-		"resources_js_Pages_Organizations_Create_js"
-	],
-	"./Organizations/Create.js": [
-		"./resources/js/Pages/Organizations/Create.js",
-		"/js/vendor",
-		"resources_js_Pages_Organizations_Create_js"
-	],
-	"./Organizations/Edit": [
-		"./resources/js/Pages/Organizations/Edit.js",
-		"/js/vendor",
-		"resources_js_Pages_Organizations_Edit_js"
-	],
-	"./Organizations/Edit.js": [
-		"./resources/js/Pages/Organizations/Edit.js",
-		"/js/vendor",
-		"resources_js_Pages_Organizations_Edit_js"
-	],
-	"./Organizations/Index": [
-		"./resources/js/Pages/Organizations/Index.js",
-		"/js/vendor",
-		"resources_js_Pages_Organizations_Index_js"
-	],
-	"./Organizations/Index.js": [
-		"./resources/js/Pages/Organizations/Index.js",
-		"/js/vendor",
-		"resources_js_Pages_Organizations_Index_js"
-	],
-	"./Reports/Index": [
-		"./resources/js/Pages/Reports/Index.js",
-		"/js/vendor",
-		"resources_js_Pages_Reports_Index_js"
-	],
-	"./Reports/Index.js": [
-		"./resources/js/Pages/Reports/Index.js",
-		"/js/vendor",
-		"resources_js_Pages_Reports_Index_js"
-	],
-	"./Tes/Index": [
-		"./resources/js/Pages/Tes/Index.js",
-		"/js/vendor",
-		"resources_js_Pages_Tes_Index_js"
-	],
-	"./Tes/Index.js": [
-		"./resources/js/Pages/Tes/Index.js",
-		"/js/vendor",
-		"resources_js_Pages_Tes_Index_js"
-	],
-	"./Users/Create": [
-		"./resources/js/Pages/Users/Create.js",
-		"/js/vendor",
-		"resources_js_Pages_Users_Create_js"
-	],
-	"./Users/Create.js": [
-		"./resources/js/Pages/Users/Create.js",
-		"/js/vendor",
-		"resources_js_Pages_Users_Create_js"
-	],
-	"./Users/Edit": [
-		"./resources/js/Pages/Users/Edit.js",
-		"/js/vendor",
-		"resources_js_Pages_Users_Edit_js"
-	],
-	"./Users/Edit.js": [
-		"./resources/js/Pages/Users/Edit.js",
-		"/js/vendor",
-		"resources_js_Pages_Users_Edit_js"
-	],
-	"./Users/Index": [
-		"./resources/js/Pages/Users/Index.js",
-		"/js/vendor",
-		"resources_js_Pages_Users_Index_js"
-	],
-	"./Users/Index.js": [
-		"./resources/js/Pages/Users/Index.js",
-		"/js/vendor",
-		"resources_js_Pages_Users_Index_js"
 	]
 };
 function webpackAsyncContext(req) {

@@ -99,6 +99,7 @@ class ComposerStaticInit2aa8b58bfc9af302ea75c90e2e9142f5
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
+            'Spatie\\DbDumper\\' => 16,
             'Sentry\\' => 7,
         ),
         'R' => 
@@ -367,6 +368,10 @@ class ComposerStaticInit2aa8b58bfc9af302ea75c90e2e9142f5
         'Symfony\\Component\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'Spatie\\DbDumper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/db-dumper/src',
         ),
         'Sentry\\' => 
         array (
@@ -710,12 +715,8 @@ class ComposerStaticInit2aa8b58bfc9af302ea75c90e2e9142f5
         'App\\Models\\Role' => __DIR__ . '/../..' . '/app/Models/Role.php',
         'App\\Models\\RolePrivilege' => __DIR__ . '/../..' . '/app/Models/RolePrivilege.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
-        'App\\Modules\\Author2\\Controllers\\Author2Controller' => __DIR__ . '/../..' . '/app/Modules/Author2/Controllers/Author2Controller.php',
-        'App\\Modules\\Author2\\Models\\Author2' => __DIR__ . '/../..' . '/app/Modules/Author2/Models/Author2.php',
-        'App\\Modules\\Book2\\Controllers\\Book2Controller' => __DIR__ . '/../..' . '/app/Modules/Book2/Controllers/Book2Controller.php',
-        'App\\Modules\\Book2\\Models\\Book2' => __DIR__ . '/../..' . '/app/Modules/Book2/Models/Book2.php',
-        'App\\Modules\\Book\\Controllers\\BookController' => __DIR__ . '/../..' . '/app/Modules/Book/Controllers/BookController.php',
-        'App\\Modules\\Book\\Models\\Book' => __DIR__ . '/../..' . '/app/Modules/Book/Models/Book.php',
+        'App\\Modules\\BackupDb\\Controllers\\BackupDbController' => __DIR__ . '/../..' . '/app/Modules/BackupDb/Controllers/BackupDbController.php',
+        'App\\Modules\\BackupDb\\Models\\BackupDb' => __DIR__ . '/../..' . '/app/Modules/BackupDb/Models/BackupDb.php',
         'App\\Modules\\Dashboard\\Controllers\\DashboardController' => __DIR__ . '/../..' . '/app/Modules/Dashboard/Controllers/DashboardController.php',
         'App\\Modules\\Dokumen\\Controllers\\DokumenController' => __DIR__ . '/../..' . '/app/Modules/Dokumen/Controllers/DokumenController.php',
         'App\\Modules\\Dokumen\\Models\\Dokumen' => __DIR__ . '/../..' . '/app/Modules/Dokumen/Models/Dokumen.php',
@@ -5241,6 +5242,16 @@ class ComposerStaticInit2aa8b58bfc9af302ea75c90e2e9142f5
         'Sentry\\Transport\\TransportInterface' => __DIR__ . '/..' . '/sentry/sentry/src/Transport/TransportInterface.php',
         'Sentry\\Util\\JSON' => __DIR__ . '/..' . '/sentry/sentry/src/Util/JSON.php',
         'Sentry\\Util\\PHPVersion' => __DIR__ . '/..' . '/sentry/sentry/src/Util/PHPVersion.php',
+        'Spatie\\DbDumper\\Compressors\\Compressor' => __DIR__ . '/..' . '/spatie/db-dumper/src/Compressors/Compressor.php',
+        'Spatie\\DbDumper\\Compressors\\GzipCompressor' => __DIR__ . '/..' . '/spatie/db-dumper/src/Compressors/GzipCompressor.php',
+        'Spatie\\DbDumper\\Databases\\MongoDb' => __DIR__ . '/..' . '/spatie/db-dumper/src/Databases/MongoDb.php',
+        'Spatie\\DbDumper\\Databases\\MySql' => __DIR__ . '/..' . '/spatie/db-dumper/src/Databases/MySql.php',
+        'Spatie\\DbDumper\\Databases\\PostgreSql' => __DIR__ . '/..' . '/spatie/db-dumper/src/Databases/PostgreSql.php',
+        'Spatie\\DbDumper\\Databases\\Sqlite' => __DIR__ . '/..' . '/spatie/db-dumper/src/Databases/Sqlite.php',
+        'Spatie\\DbDumper\\DbDumper' => __DIR__ . '/..' . '/spatie/db-dumper/src/DbDumper.php',
+        'Spatie\\DbDumper\\Exceptions\\CannotSetParameter' => __DIR__ . '/..' . '/spatie/db-dumper/src/Exceptions/CannotSetParameter.php',
+        'Spatie\\DbDumper\\Exceptions\\CannotStartDump' => __DIR__ . '/..' . '/spatie/db-dumper/src/Exceptions/CannotStartDump.php',
+        'Spatie\\DbDumper\\Exceptions\\DumpFailed' => __DIR__ . '/..' . '/spatie/db-dumper/src/Exceptions/DumpFailed.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'Symfony\\Component\\Console\\Application' => __DIR__ . '/..' . '/symfony/console/Application.php',
         'Symfony\\Component\\Console\\Attribute\\AsCommand' => __DIR__ . '/..' . '/symfony/console/Attribute/AsCommand.php',

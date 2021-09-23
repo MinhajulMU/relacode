@@ -54,7 +54,7 @@ const Profil = () => {
                             <div className="profile-picture">
                               <div className="avatar avatar-xl">
                                 <img
-                                  src={window.location.origin+"/"+props.auth.profile_photo}
+                                  src={props.auth.profile_photo}
                                   alt="..."
                                   className="avatar-img rounded-circle"
                                 />
