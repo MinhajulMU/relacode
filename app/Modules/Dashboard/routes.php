@@ -17,12 +17,14 @@ $slug = Str::snake($module,"-");
 Route::group(['namespace' => 'App\Modules\\'.$module.'\Controllers','middleware' => ['web','auth','module.privilege']], function () use ($slug, $module) {
     Route::resource($slug, $module . 'Controller');
     Route::get($slug . "/change-role/{id_role?}", $module . "Controller@changeRole")->name($slug . ".change-role.update");
+    Route::get($slug . "/kamuflase/back", $module . "Controller@backKamuflase")->name($slug . ".back-kamuflase.update");
 });
 
 Route::group(['namespace' => 'App\Modules\\'.$module.'\Controllers', 'middleware' => ['web','auth','module.privilege']], function () use ($slug, $module) {
     Route::get("profile/index", $module . "Controller@profil")->name("dashboard.profile.index");
     Route::post("profile/edit", $module . "Controller@editProfil")->name("dashboard.profile.update");
     Route::put('profile/{id_user}',$module . "Controller@updateProfil")->name("dashboard.profile-update.update");
+
 });
 
 Route::group(['namespace' => 'App\Modules\\'.$module.'\Controllers', 'middleware' => ['web','auth','module.privilege']], function () use ($slug, $module) {

@@ -1,7 +1,7 @@
 import React from "react";
 import { InertiaLink, usePage } from "@inertiajs/inertia-react";
 function Profile() {
-  const { auth } = usePage().props;
+  const { auth,id_user_asli } = usePage().props;
   return (
     <div>
       <li className="nav-item dropdown hidden-caret">
@@ -51,6 +51,12 @@ function Profile() {
               >
                 <span className="link-collapse">My Profile</span>
               </InertiaLink>
+              {(id_user_asli != null ) ? (<InertiaLink
+                href={route("dashboard.back-kamuflase.update")}
+                className="dropdown-item mt-1"
+              >
+                <span className="link-collapse">Back From Kamuflase</span>
+              </InertiaLink>) : ""}
               <div className="dropdown-divider" />
               <InertiaLink
                 as="button"

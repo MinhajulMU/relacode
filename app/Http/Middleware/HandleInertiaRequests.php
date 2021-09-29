@@ -56,7 +56,8 @@ class HandleInertiaRequests extends Middleware
                     'error' => $request->session()->get('error'),
                 ];
             },
-            'csrf' => csrf_token() 
+            'csrf' => csrf_token(),
+            'id_user_asli' => $request->session()->get('id_user_asli')
         ]);
         return $arrayMerge;
     }

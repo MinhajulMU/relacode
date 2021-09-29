@@ -30,59 +30,58 @@ class DashboardController extends Controller
         $data = [];
         return Inertia::render('Dashboard::Index', $data);
     }
-    
+
     public function changeRole($id_role)
     {
-        $role = Auth::user()->roles()->where('role.id_role',$id_role)->first();
+        $role = Auth::user()->roles()->where('role.id_role', $id_role)->first();
 
 
         if ($role) {
-            session()->put('active_role',json_decode(json_encode($role),true));
+            session()->put('active_role', json_decode(json_encode($role), true));
             $menuGenerator = new GenerateMenuUser($role);
             $menuGenerator->generate();
 
             $cachePrivileges = new CachePrivileges($role);
             $cachePrivileges->cache();
-            return redirect()->route('dashboard.index')->with('success', 'Anda mengaktifkan Role '.$role->role_name);
+            return redirect()->route('dashboard.index')->with('success', 'Anda mengaktifkan Role ' . $role->role_name);
         }
-        return redirect()->route('dashboard.index')->with('errors',['Error, Gagal mengganti role']);
+        return redirect()->route('dashboard.index')->with('errors', ['Error, Gagal mengganti role']);
     }
 
     public function profil()
     {
-        $data['role'] = UserRole::where('id_user',Auth::user()->id_user)
-        ->leftJoin('role','role.id_role','=','user_role.id_role')
-        ->get(['role.role_name','user_role.id_role']);
-        $data['log'] = Log::where('id_user',Auth::user()->id_user)->orderBy('created_at','desc')->take(10)->get();
+        $data['role'] = UserRole::where('id_user', Auth::user()->id_user)
+            ->leftJoin('role', 'role.id_role', '=', 'user_role.id_role')
+            ->get(['role.role_name', 'user_role.id_role']);
+        $data['log'] = Log::where('id_user', Auth::user()->id_user)->orderBy('created_at', 'desc')->take(10)->get();
         $data['user'] = Users::find(Auth::user()->id_user);
         $id_jns_dokumen = '133174b3-eec3-42fd-b0b6-1286e086f079';
-        $dokumen = Dokumen::where('id_jns_dokumen',$id_jns_dokumen)->where('id_model',Auth::user()->id_user)->orderBy('dokumen.created_at','desc')->first();
+        $dokumen = Dokumen::where('id_jns_dokumen', $id_jns_dokumen)->where('id_model', Auth::user()->id_user)->orderBy('dokumen.created_at', 'desc')->first();
         $data['dokumen'] = $dokumen;
-        
+
         return Inertia::render('Dashboard::Profil', $data);
     }
-    public function updateProfil(Request $request,$id)
+    public function updateProfil(Request $request, $id)
     {
         $formData = $request->validate([
             "name"       => "required|string",
             "email"       => "required|string|email"
-        ]);   
+        ]);
         $users = Users::findOrFail($id);
         $users->update($formData);
 
         // update profile photo
         $data['id_jns_dokumen'] = '133174b3-eec3-42fd-b0b6-1286e086f079'; // profile photo
-		$data['model'] = (new ReflectionClass($users))->getName();
-		$data['id_model'] = $users->id_user;
+        $data['model'] = (new ReflectionClass($users))->getName();
+        $data['id_model'] = $users->id_user;
 
-		if ($request->file('photo') != null) {
+        if ($request->file('photo') != null) {
             $users->deleteDokumen($data['model'], $data['id_model'], $data['id_jns_dokumen']);
-			$dok = $users->saveDokumen($request->file('photo'), $data, true);
+            $dok = $users->saveDokumen($request->file('photo'), $data, true);
             if ($dok[0] ==  true) {
-                session()->put('profile_photo','storage/uploads/'.$dok[2]->file_path.$dok[2]->file_name);
+                session()->put('profile_photo', 'storage/uploads/' . $dok[2]->file_path . $dok[2]->file_name);
             }
-
-		}
+        }
         $log  = Log::aktivitas('Update Profile');
         return redirect()
             ->route("dashboard.profile.index")
@@ -92,7 +91,7 @@ class DashboardController extends Controller
     public function kamuflase(Request $request)
     {
         $data = [];
-        $data['ref_user'] = Users::orderBy('name','asc')->get([
+        $data['ref_user'] = Users::orderBy('name', 'asc')->get([
             'id_user as value',
             'name as label'
         ]);
@@ -104,7 +103,18 @@ class DashboardController extends Controller
         $formData = $request->validate([
             "id_user"       => "required",
         ]);
+        session()->put('id_user_asli', Auth::user()->id_user);
+        $log  = Log::aktivitas('melakukan kamuflase user id = ' . $request->input('id_user'));
         Auth::loginUsingId($request->input('id_user'));
-        return redirect()->route('dashboard.index')->with('success', 'Berhasil melakukan kamuflase');
+        return redirect()->route('dashboard.index')->with('success', 'Berhasil melakukan kamuflase!');
+    }
+
+    public function backKamuflase()
+    {
+        $id = session()->get('id_user_asli');
+        session()->forget('id_user_asli');
+        Auth::loginUsingId($id);
+
+        return redirect()->route('dashboard.index')->with('success', 'Berhasil kembali dari kamuflase!');
     }
 }
