@@ -17,7 +17,7 @@ use App\Modules\Dokumen\Models\Dokumen;
 use App\Models\Log;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-
+use Session;
 
 class DashboardController extends Controller
 {
@@ -87,5 +87,24 @@ class DashboardController extends Controller
         return redirect()
             ->route("dashboard.profile.index")
             ->with('success', 'Berhasil memperbarui data!');
+    }
+
+    public function kamuflase(Request $request)
+    {
+        $data = [];
+        $data['ref_user'] = Users::orderBy('name','asc')->get([
+            'id_user as value',
+            'name as label'
+        ]);
+        return Inertia::render('Dashboard::Kamuflase', $data);
+    }
+
+    public function kamuflaseChange(Request $request)
+    {
+        $formData = $request->validate([
+            "id_user"       => "required",
+        ]);
+        Auth::loginUsingId($request->input('id_user'));
+        return redirect()->route('dashboard.index')->with('success', 'Berhasil melakukan kamuflase');
     }
 }

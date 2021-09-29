@@ -10,6 +10,7 @@ use App\Bardiz12\Auth\GenerateMenuUser;
 use App\Bardiz12\Auth\CachePrivileges;
 use App\Modules\Dokumen\Models\Dokumen;
 use App\Models\Log;
+use Session;
 use Avatar;
 use Auth;
 class LoginSuccessful

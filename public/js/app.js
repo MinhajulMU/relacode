@@ -45,6 +45,11 @@ var map = {
 		"/js/vendor",
 		"app_Modules_Dashboard_Inertia_Index_js"
 	],
+	"./Dashboard/Inertia/Kamuflase.js": [
+		"./app/Modules/Dashboard/Inertia/Kamuflase.js",
+		"/js/vendor",
+		"app_Modules_Dashboard_Inertia_Kamuflase_js"
+	],
 	"./Dashboard/Inertia/Profil.js": [
 		"./app/Modules/Dashboard/Inertia/Profil.js",
 		"/js/vendor",

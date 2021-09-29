@@ -12,7 +12,6 @@ import Form from "../../../Modules/Module/Inertia/Form";
 
 const Index = () => {
   const props = usePage().props;
-  console.log(props);
   const { data, setData, errors, post, processing } = useForm({
     name: "",
     icon: "",
