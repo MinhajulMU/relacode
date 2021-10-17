@@ -94,7 +94,8 @@ class RefJnsDokumenController extends Controller
         ]);
         $refJnsDokumen = $this->model::findOrFail($id);
         $refJnsDokumen->update($formData);
-        $log  = Log::aktivitas('Mengubah ' . $this->title . ' ID = ' . $refJnsDokumen->id_jns_dokumen);
+        $raw_data = json_encode($refJnsDokumen);
+        $log  = Log::aktivitas('Mengubah ' . $this->title . ' ID = ' . $refJnsDokumen->id_jns_dokumen,$raw_data);
         return redirect()
             ->route("ref-jns-dokumen.index")
             ->with('success', 'Berhasil memperbarui data!');

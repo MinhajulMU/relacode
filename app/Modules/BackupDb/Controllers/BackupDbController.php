@@ -119,8 +119,9 @@ class BackupDbController extends Controller
             "file_path"       => "nullable|string|max:100"
         ]);
         $backupDb = $this->model::findOrFail($id);
+        $raw_data = json_encode($backupDb);
         $backupDb->update($formData);
-        $log  = Log::aktivitas('Mengubah ' . $this->title . ' ID = ' . $backupDb->id_backup_db);
+        $log  = Log::aktivitas('Mengubah ' . $this->title . ' ID = ' . $backupDb->id_backup_db,$raw_data);
         return redirect()
             ->route("backup-db.index")
             ->with('success', 'Berhasil memperbarui data!');

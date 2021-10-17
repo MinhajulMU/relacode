@@ -13,7 +13,8 @@ class Log extends BaseModel{
     protected $primaryKey = "id_log";
     protected $fillable = [
         "id_user",
-        "aktifitas"
+        "aktifitas",
+        'raw_data'
     ];
 
     protected $relationField = [

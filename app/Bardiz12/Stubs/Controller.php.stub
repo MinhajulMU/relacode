@@ -89,8 +89,10 @@ class {{moduleName}}Controller extends Controller
 {{updateValidator}}
         ]);
         ${{moduleNameCamel}} = $this->model::findOrFail($id);
+        $raw_data = json_encode(${{moduleNameCamel}});
         ${{moduleNameCamel}}->update($formData);
-        $log  = Log::aktivitas('Mengubah ' . $this->title . ' ID = ' . ${{moduleNameCamel}}->{{primaryKey}});
+
+        $log  = Log::aktivitas('Mengubah ' . $this->title . ' ID = ' . ${{moduleNameCamel}}->{{primaryKey}},$raw_data);
         return redirect()
             ->route("{{moduleSlug}}.index")
             ->with('success', 'Berhasil memperbarui data!');

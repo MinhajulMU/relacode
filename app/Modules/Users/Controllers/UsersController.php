@@ -136,6 +136,7 @@ class UsersController extends Controller
         ]);
         $users = $this->model::findOrFail($id);
         $users->update($formData);
+        $raw_data = json_encode($users);
         $role = $request->input('id_role');
         UserRole::where('id_user', $users->id_user)->delete();
         foreach ($role as $key => $value) {
@@ -144,7 +145,7 @@ class UsersController extends Controller
         	$userRole->id_role = $value['value'];
         	$userRole->save();
         }
-        $log  = Log::aktivitas('Mengubah ' . $this->title . ' ID = ' . $users->id_user);
+        $log  = Log::aktivitas('Mengubah ' . $this->title . ' ID = ' . $users->id_user,$raw_data);
         return redirect()
             ->route("users.index")
             ->with('success', 'Berhasil memperbarui data!');

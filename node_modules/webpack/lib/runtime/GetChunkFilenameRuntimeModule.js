@@ -30,6 +30,7 @@ class GetChunkFilenameRuntimeModule extends RuntimeModule {
 		this.global = global;
 		this.getFilenameForChunk = getFilenameForChunk;
 		this.allChunks = allChunks;
+		this.dependentHash = true;
 	}
 
 	/**
@@ -39,6 +40,7 @@ class GetChunkFilenameRuntimeModule extends RuntimeModule {
 		const {
 			global,
 			chunk,
+			chunkGraph,
 			contentType,
 			getFilenameForChunk,
 			allChunks,
@@ -90,12 +92,12 @@ class GetChunkFilenameRuntimeModule extends RuntimeModule {
 			for (const c of chunk.getAllAsyncChunks()) {
 				addChunk(c);
 			}
-			const includeEntries = compilation.chunkGraph
+			const includeEntries = chunkGraph
 				.getTreeRuntimeRequirements(chunk)
 				.has(RuntimeGlobals.ensureChunkIncludeEntries);
 			if (includeEntries) {
 				includedChunksMessages.push("sibling chunks for the entrypoint");
-				for (const c of compilation.chunkGraph.getChunkEntryDependentChunksIterable(
+				for (const c of chunkGraph.getChunkEntryDependentChunksIterable(
 					chunk
 				)) {
 					addChunk(c);

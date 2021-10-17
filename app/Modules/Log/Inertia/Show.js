@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import Layout from '@/Shared/Templates/Layout';
-import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
-import BackButton from '@/Shared/components/BackButton';
+import React, { useState } from "react";
+import Layout from "@/Shared/Templates/Layout";
+import { InertiaLink, usePage, useForm } from "@inertiajs/inertia-react";
+import BackButton from "@/Shared/components/BackButton";
+import Moment from "react-moment";
 
 const Show = ({ data, routes }) => {
   return (
@@ -29,16 +30,31 @@ const Show = ({ data, routes }) => {
                   <table>
                     <tbody>
                       <tr>
-            <td className="px-4 py-2 align-top">User</td>
-            <td className="px-4 py-2 align-top" width="10px">:</td>
-            <td className="px-4 py-2">{data.id_user}</td>
-        </tr>
+                        <td className="px-4 py-2 align-top">User</td>
+                        <td className="px-4 py-2 align-top" width="10px">
+                          :
+                        </td>
+                        <td className="px-4 py-2">{data.id_user}</td>
+                      </tr>
 
-<tr>
-            <td className="px-4 py-2 align-top">Aktifitas</td>
-            <td className="px-4 py-2 align-top" width="10px">:</td>
-            <td className="px-4 py-2">{data.aktifitas}</td>
-        </tr>
+                      <tr>
+                        <td className="px-4 py-2 align-top">Aktifitas</td>
+                        <td className="px-4 py-2 align-top" width="10px">
+                          :
+                        </td>
+                        <td className="px-4 py-2">{data.aktifitas}</td>
+                      </tr>
+                      <tr>
+                        <td className="px-4 py-2 align-top">Waktu</td>
+                        <td className="px-4 py-2 align-top" width="10px">
+                          :
+                        </td>
+                        <td className="px-4 py-2">
+                          <Moment locale="id" format="dddd, LLL">
+                            {data.created_at}
+                          </Moment>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -51,5 +67,5 @@ const Show = ({ data, routes }) => {
   );
 };
 
-Show.layout = page => <Layout children={page} title="Detail Log" />;
+Show.layout = (page) => <Layout children={page} title="Detail Log" />;
 export default Show;

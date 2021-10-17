@@ -260,9 +260,6 @@ class ModuleGenerateController extends Command
         $createViewFilePath = $inertiaDir . "/Create.js";
 
 
-
-
-
         file_put_contents($controllerFilePath, $stub);
         $this->info("$moduleName CRUD Controller created!");
         if ($writeRoute) {

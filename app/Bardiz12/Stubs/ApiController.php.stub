@@ -1,0 +1,85 @@
+<?php
+
+namespace App\Modules\{{moduleName}}\Controllers;
+
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Http\Request;
+use App\Models\Log;
+use App\Modules\{{moduleName}}\Models\{{moduleName}};
+
+class {{moduleName}}ApiController extends Controller
+{
+    protected $title = "{{moduleName}}";
+
+    public function __construct()
+    {
+        $this->model = new {{moduleName}}();
+    }
+
+    public function index(Request $request)
+    {
+        $data = $this->model->orderBy('created_at', 'desc')->get();
+        return response()->json([
+            'message' => 'berhasil mendapatkan data',
+            'data' => $data
+        ], 200);
+    }
+    public function store(Request $request)
+    {
+        $valid = Validator::make($request->all(), [
+            {{storeValidator}}
+        ]);
+
+        if ($valid->fails()) {
+            return response()->json(['message' => implode(', ', $valid->messages()->all()), 'success' => false, 'data' => []]);
+        }
+        $data = $this->model->create([
+            {{storeData}}
+        ]);
+        $log  = Log::aktivitas('Menambah ' . $this->title . ' ID = ' . $data->{{primaryKey}});
+        return response()->json(['message' => 'Berhasil tambah data ' . $this->title, 'success' => true, 'data' => $data]);
+    }
+
+    public function show($id)
+    {
+        $data = $this->model->showWithForeign($id);
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil mengambil data',
+            'data' => $data
+        ],200);
+    }
+    public function update(Request $request, $id)
+    {
+        $valid = Validator::make($request->all(), [
+            {{updateValidator}}
+        ]);
+        if ($valid->fails()) {
+            return response()->json(['message' => implode(', ', $valid->messages()->all()), 'success' => false, 'data' => []]);
+        }
+        $data = $this->model::findOrFail($id);
+        $raw_data = json_encode($data);
+        {{updateData}}
+        $data->save();
+        $log  = Log::aktivitas('Mengubah ' . $this->title . ' ID = ' . $data->{{primaryKey}},$raw_data);
+		return response()->json(['message' => 'Berhasil ubah data '.$this->title , 'success' => true, 'data' => $data]);
+    }
+
+    public function destroy($id)
+    {
+        $data = $this->model::findOrFail($id);
+        if ($data == null) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data not found !'
+            ]);
+        }
+        $data->delete();
+        $log  = Log::aktivitas('Menghapus '.$this->title.' ID = '.$id);
+        return response()->json(['message' => 'Berhasil menghapus data '.$this->title , 'success' => true, 'data' => []]);
+    }
+}

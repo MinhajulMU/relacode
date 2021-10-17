@@ -106,7 +106,8 @@ class RoleController extends Controller
         ]);
         $role = $this->model::findOrFail($id);
         $role->update($formData);
-        $log  = Log::aktivitas('Mengubah ' . $this->title . ' ID = ' . $role->id_role);
+        $raw_data = json_encode($role);
+        $log  = Log::aktivitas('Mengubah ' . $this->title . ' ID = ' . $role->id_role,$raw_data);
         return redirect()
             ->route("role.index")
             ->with('success', 'Berhasil memperbarui data!');

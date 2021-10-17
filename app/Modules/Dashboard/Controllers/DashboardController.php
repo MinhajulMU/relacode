@@ -79,7 +79,7 @@ class DashboardController extends Controller
             $users->deleteDokumen($data['model'], $data['id_model'], $data['id_jns_dokumen']);
             $dok = $users->saveDokumen($request->file('photo'), $data, true);
             if ($dok[0] ==  true) {
-                session()->put('profile_photo', 'storage/uploads/' . $dok[2]->file_path . $dok[2]->file_name);
+                session()->put('profile_photo', '/storage/uploads/' . $dok[2]->file_path . $dok[2]->file_name);
             }
         }
         $log  = Log::aktivitas('Update Profile');

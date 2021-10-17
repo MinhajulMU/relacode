@@ -26,8 +26,10 @@ const Index = () => {
                 <FlashMessages></FlashMessages>
                 <div className="numbers">
                   <h4 className="card-title">
-                    Hi <b>{props.auth.user.name}!</b>, Selamat Datang di {process.env.MIX_APP_NAME}.
-                    Anda login sebagai <b>{props.auth.active_role.role_name}</b>
+                    Hi <b>{props.auth.user.name}!</b>, Selamat Datang di{" "}
+                    {process.env.MIX_APP_NAME}. Anda login sebagai{" "}
+                    <b>{props.auth.active_role.role_name}</b>
+                    
                   </h4>
                 </div>
               </div>

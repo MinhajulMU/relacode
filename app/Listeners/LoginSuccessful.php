@@ -36,7 +36,8 @@ class LoginSuccessful
         $id_user = $event->user['id_user'];
         $user = User::find($id_user);
         $id_jns_dokumen = '133174b3-eec3-42fd-b0b6-1286e086f079';
-        $dokumen = Dokumen::where('id_jns_dokumen',$id_jns_dokumen)->where('id_model',Auth::user()->id_user)->orderBy('dokumen.created_at','desc')->first();
+        // dd(Auth::user()->id_user);
+        $dokumen = Dokumen::where('id_jns_dokumen',$id_jns_dokumen)->where('id_model',$user->id_user)->orderBy('dokumen.created_at','desc')->first();
         if ($dokumen == null) {
             $profile_photo = Avatar::create($user->name)->toBase64();
         }else{

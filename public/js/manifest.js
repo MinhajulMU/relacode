@@ -16,8 +16,9 @@
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		if(__webpack_module_cache__[moduleId]) {
-/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -39,10 +40,39 @@
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = __webpack_modules__;
 /******/ 	
-/******/ 	// the startup function
-/******/ 	// It's empty as some runtime module handles the default behavior
-/******/ 	__webpack_require__.x = x => {};
 /************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var [chunkIds, fn, priority] = deferred[i];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
@@ -85,7 +115,7 @@
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "js/" + chunkId + ".js?id=" + {"resources_js_Pages_Auth_Login_js":"6fdf0c8db0485a94a666","resources_js_Pages_Error_js":"7717f678742d4491780b","app_Modules_BackupDb_Inertia_Edit_js":"b7284d730f862f178a23","app_Modules_BackupDb_Inertia_Form_js":"221588471ece43b6c264","app_Modules_BackupDb_Inertia_Index_js-node_modules_moment_locale_sync_recursive_":"1d46c90eaa4c6d374da0","app_Modules_BackupDb_Inertia_Restore_js":"a4ad73b1bdf6fc4ff4d3","app_Modules_BackupDb_Inertia_Show_js":"17d582b9da71bd56394f","app_Modules_Dashboard_Inertia_Index_js":"46dbd468508cf87ee19a","app_Modules_Dashboard_Inertia_Kamuflase_js":"b7b51a59d93ccd1f0d60","app_Modules_Dashboard_Inertia_Profil_js-node_modules_moment_locale_sync_recursive_":"4228a8772cffa85f51f2","app_Modules_Dokumen_Inertia_Create_js":"5935d926c61ec041eb18","app_Modules_Dokumen_Inertia_Edit_js":"729813196fbcc52cf1c1","app_Modules_Dokumen_Inertia_Form_js":"0b97f6775442d66fbdba","app_Modules_Dokumen_Inertia_Index_js":"4d4c661ef6cfaa1dec64","app_Modules_Dokumen_Inertia_Show_js":"585c05f2799128bf57c7","app_Modules_Log_Inertia_Create_js":"724ee3567d33ad39d123","app_Modules_Log_Inertia_Edit_js":"128aa0eb4b430542ecaf","app_Modules_Log_Inertia_Form_js":"ce2b747bc8a141f73626","app_Modules_Log_Inertia_Index_js":"98766dbee86a1b3cb719","app_Modules_Log_Inertia_Show_js":"540fcca3f2d4e33009a0","app_Modules_MenuGrup_Inertia_Create_js":"754dc9e5c2ffc152fe43","app_Modules_MenuGrup_Inertia_Edit_js":"8605ec173b3645d06589","app_Modules_MenuGrup_Inertia_Form_js":"8cddcfefd1f700253c17","app_Modules_MenuGrup_Inertia_Index_js":"58b0003f6af3e18a4df6","app_Modules_MenuGrup_Inertia_Show_js":"d6f4b1515c28a7012bb6","app_Modules_Module_Inertia_Create_js":"4e836dcfdc1e793edd63","app_Modules_Module_Inertia_Edit_js":"2583bea570a6aba3aab1","app_Modules_Module_Inertia_Form_js":"98ae946ded9b3eeb4878","app_Modules_Module_Inertia_Index_js":"3273915ff01c77758118","app_Modules_Module_Inertia_Show_js":"c5a25735076e34827218","app_Modules_RefJnsDokumen_Inertia_Create_js":"cf5a6a57f6f155cc7a1b","app_Modules_RefJnsDokumen_Inertia_Edit_js":"0c783f5f082cc6fcebe4","app_Modules_RefJnsDokumen_Inertia_Form_js":"ee6482ab1a67714d3b6e","app_Modules_RefJnsDokumen_Inertia_Index_js":"46736754115e3dfcdbca","app_Modules_RefJnsDokumen_Inertia_Show_js":"cd0ebfcfb67456e2cbb5","app_Modules_Role_Inertia_Create_js":"6f6a3ad11f3321eb4ebc","app_Modules_Role_Inertia_Edit_js":"80b387e6ae7c8a73eaf2","app_Modules_Role_Inertia_Form_js":"64322e69cc7362578eeb","app_Modules_Role_Inertia_Index_js":"4a65d7ea5c614f76cc30","app_Modules_Role_Inertia_Show_js":"20f67e6290c6d3c36be4","app_Modules_RolePrivilege_Inertia_Create_js":"8d1cec118d5135beb0e9","app_Modules_RolePrivilege_Inertia_Edit_js":"6448c100d5d747978291","app_Modules_RolePrivilege_Inertia_Form_js":"355780c558f828c8736c","app_Modules_RolePrivilege_Inertia_Index_js":"7f8f4e0790e39b83fd48","app_Modules_RolePrivilege_Inertia_Show_js":"5cf0e8cf26b20ed083a4","app_Modules_Users_Inertia_Create_js":"775ba5acf0765d77be80","app_Modules_Users_Inertia_Edit_js":"cd71101daceae386b82e","app_Modules_Users_Inertia_Form_js":"9bc609dca8ada391f4db","app_Modules_Users_Inertia_Index_js":"727186f6ec1cd755fa2b","app_Modules_Users_Inertia_Show_js":"461f304776918437c34b"}[chunkId] + "";
+/******/ 			return "js/" + chunkId + ".js?id=" + {"resources_js_Pages_Auth_Login_js":"8dc7d97f7ab3dc9273e8","resources_js_Pages_Error_js":"cc1ea7d4313cd38bbea3","app_Modules_BackupDb_Inertia_Edit_js":"e185594aac09b6bf179d","app_Modules_BackupDb_Inertia_Form_js":"c6d222d22f83fb3b7099","app_Modules_BackupDb_Inertia_Index_js-node_modules_moment_locale_sync_recursive_":"9ffc889be7e0f335d817","app_Modules_BackupDb_Inertia_Restore_js":"c1d21c5efdd1b9a9b346","app_Modules_BackupDb_Inertia_Show_js":"79afd2e17af24466dea3","app_Modules_Config_Inertia_Create_js":"b4719a32c4890254fc71","app_Modules_Config_Inertia_Edit_js":"c0ceca223f61438035db","app_Modules_Config_Inertia_Form_js":"999c3db33959dcca3062","app_Modules_Config_Inertia_Index_js":"83e789159383681451df","app_Modules_Config_Inertia_Show_js":"76e09f021b103d7e4c16","app_Modules_Dashboard_Inertia_Index_js":"f9317ea1b25a15875f64","app_Modules_Dashboard_Inertia_Kamuflase_js":"a1236b9bec6392480f06","app_Modules_Dashboard_Inertia_Profil_js-node_modules_moment_locale_sync_recursive_":"b13ad4086e4cb6da83ee","app_Modules_Dokumen_Inertia_Create_js":"65ceb927ed54fe9a6be2","app_Modules_Dokumen_Inertia_Edit_js":"89d8bea677f6427cf2c8","app_Modules_Dokumen_Inertia_Form_js":"9fa3fcd0db67ddebaea8","app_Modules_Dokumen_Inertia_Index_js":"b877758ee50f936b5867","app_Modules_Dokumen_Inertia_Show_js":"37e65ce215bc0e1e2b7c","app_Modules_Log_Inertia_Create_js":"16ddcb64def560bff209","app_Modules_Log_Inertia_Edit_js":"d9c8118fa6b67e80a662","app_Modules_Log_Inertia_Form_js":"dad63e5d2b83c375059a","app_Modules_Log_Inertia_Index_js-node_modules_moment_locale_sync_recursive_":"d2448e39dcef5abeb1bc","app_Modules_Log_Inertia_Show_js-node_modules_moment_locale_sync_recursive_":"403c69b6233868c488db","app_Modules_MenuGrup_Inertia_Create_js":"9cb35ed911744e71bd85","app_Modules_MenuGrup_Inertia_Edit_js":"db379a360a6d1b6c78cc","app_Modules_MenuGrup_Inertia_Form_js":"7ff7a5d1ac18fd008cac","app_Modules_MenuGrup_Inertia_Index_js":"00a70ca8a215ad7aec69","app_Modules_MenuGrup_Inertia_Show_js":"e4b247c39e73d25fa45d","app_Modules_Module_Inertia_Create_js":"3cad9484f4735fb1645e","app_Modules_Module_Inertia_Edit_js":"b9256bc601d13575a8de","app_Modules_Module_Inertia_Form_js":"4c85163e9993e03f2b70","app_Modules_Module_Inertia_Index_js":"6a492847a6036774e7c9","app_Modules_Module_Inertia_Show_js":"d2c39fa159cd41ab666d","app_Modules_RefJnsDokumen_Inertia_Create_js":"2aa5e33877f01941866c","app_Modules_RefJnsDokumen_Inertia_Edit_js":"f3133dbd3bc8fc62332a","app_Modules_RefJnsDokumen_Inertia_Form_js":"7c66e9d5342e6888a747","app_Modules_RefJnsDokumen_Inertia_Index_js":"5c3a537f5f43c8925138","app_Modules_RefJnsDokumen_Inertia_Show_js":"39cd2b6c38321bb20fef","app_Modules_Role_Inertia_Create_js":"e9074fab79d438074209","app_Modules_Role_Inertia_Edit_js":"5c039fb23775e250a92a","app_Modules_Role_Inertia_Form_js":"2ac52311754f9f00c536","app_Modules_Role_Inertia_Index_js":"e7b3adaba8060442bae8","app_Modules_Role_Inertia_Show_js":"32bb0aae0c53ca953374","app_Modules_RolePrivilege_Inertia_Create_js":"d1514b15506b6dc24afa","app_Modules_RolePrivilege_Inertia_Edit_js":"55ef9066d4346994faf1","app_Modules_RolePrivilege_Inertia_Form_js":"8e360591f80e2159e42e","app_Modules_RolePrivilege_Inertia_Index_js":"87336f08b01d56cc18d1","app_Modules_RolePrivilege_Inertia_Show_js":"1f6c677e51d614d449a9","app_Modules_Users_Inertia_Create_js":"48c48ea5d1d94d0139e8","app_Modules_Users_Inertia_Edit_js":"d5544d2150210b482df2","app_Modules_Users_Inertia_Form_js":"c6b83802a0a4c841d184","app_Modules_Users_Inertia_Index_js":"3db96463707d0fa60deb","app_Modules_Users_Inertia_Show_js":"62639e6030207c997a31"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -207,14 +237,12 @@
 /******/ 		
 /******/ 		// object to store loaded and loading chunks
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
-/******/ 		// Promise = chunk loading, 0 = chunk loaded
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"/js/manifest": 0
+/******/ 			"/js/manifest": 0,
+/******/ 			"css/app": 0
 /******/ 		};
 /******/ 		
-/******/ 		var deferredModules = [
-/******/ 		
-/******/ 		];
 /******/ 		__webpack_require__.f.j = (chunkId, promises) => {
 /******/ 				// JSONP chunk loading for javascript
 /******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
@@ -224,11 +252,9 @@
 /******/ 					if(installedChunkData) {
 /******/ 						promises.push(installedChunkData[2]);
 /******/ 					} else {
-/******/ 						if(true) { // all chunks have JS
+/******/ 						if(!/^(\/js\/manifest|css\/app)$/.test(chunkId)) {
 /******/ 							// setup Promise in chunk cache
-/******/ 							var promise = new Promise((resolve, reject) => {
-/******/ 								installedChunkData = installedChunks[chunkId] = [resolve, reject];
-/******/ 							});
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
 /******/ 							promises.push(installedChunkData[2] = promise);
 /******/ 		
 /******/ 							// start chunk loading
@@ -264,75 +290,40 @@
 /******/ 		
 /******/ 		// no HMR manifest
 /******/ 		
-/******/ 		var checkDeferredModules = x => {};
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
 /******/ 		
 /******/ 		// install a JSONP callback for chunk loading
 /******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
-/******/ 			var [chunkIds, moreModules, runtime, executeModules] = data;
+/******/ 			var [chunkIds, moreModules, runtime] = data;
 /******/ 			// add "moreModules" to the modules object,
 /******/ 			// then flag all "chunkIds" as loaded and fire callback
-/******/ 			var moduleId, chunkId, i = 0, resolves = [];
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
 /******/ 			for(;i < chunkIds.length; i++) {
 /******/ 				chunkId = chunkIds[i];
 /******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
-/******/ 					resolves.push(installedChunks[chunkId][0]);
+/******/ 					installedChunks[chunkId][0]();
 /******/ 				}
-/******/ 				installedChunks[chunkId] = 0;
+/******/ 				installedChunks[chunkIds[i]] = 0;
 /******/ 			}
-/******/ 			for(moduleId in moreModules) {
-/******/ 				if(__webpack_require__.o(moreModules, moduleId)) {
-/******/ 					__webpack_require__.m[moduleId] = moreModules[moduleId];
-/******/ 				}
-/******/ 			}
-/******/ 			if(runtime) runtime(__webpack_require__);
-/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
-/******/ 			while(resolves.length) {
-/******/ 				resolves.shift()();
-/******/ 			}
-/******/ 		
-/******/ 			// add entry modules from loaded chunk to deferred list
-/******/ 			if(executeModules) deferredModules.push.apply(deferredModules, executeModules);
-/******/ 		
-/******/ 			// run deferred modules when all chunks ready
-/******/ 			return checkDeferredModules();
+/******/ 			return __webpack_require__.O(result);
 /******/ 		}
 /******/ 		
 /******/ 		var chunkLoadingGlobal = self["webpackChunk"] = self["webpackChunk"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-/******/ 		
-/******/ 		function checkDeferredModulesImpl() {
-/******/ 			var result;
-/******/ 			for(var i = 0; i < deferredModules.length; i++) {
-/******/ 				var deferredModule = deferredModules[i];
-/******/ 				var fulfilled = true;
-/******/ 				for(var j = 1; j < deferredModule.length; j++) {
-/******/ 					var depId = deferredModule[j];
-/******/ 					if(installedChunks[depId] !== 0) fulfilled = false;
-/******/ 				}
-/******/ 				if(fulfilled) {
-/******/ 					deferredModules.splice(i--, 1);
-/******/ 					result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
-/******/ 				}
-/******/ 			}
-/******/ 			if(deferredModules.length === 0) {
-/******/ 				__webpack_require__.x();
-/******/ 				__webpack_require__.x = x => {};
-/******/ 			}
-/******/ 			return result;
-/******/ 		}
-/******/ 		var startup = __webpack_require__.x;
-/******/ 		__webpack_require__.x = () => {
-/******/ 			// reset startup function so it can be called again when more startup code is added
-/******/ 			__webpack_require__.x = startup || (x => {});
-/******/ 			return (checkDeferredModules = checkDeferredModulesImpl)();
-/******/ 		};
 /******/ 	})();
 /******/ 	
 /************************************************************************/
 /******/ 	
-/******/ 	// run startup
-/******/ 	var __webpack_exports__ = __webpack_require__.x();
 /******/ 	
 /******/ })()
 ;

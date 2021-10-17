@@ -154,7 +154,8 @@ class ModuleController extends Controller
         ]);
         $module = $this->model::findOrFail($id);
         $module->update($formData);
-        $log  = Log::aktivitas('Mengubah ' . $this->title . ' ID = ' . $module->id_module);
+        $raw_data = json_encode($module);
+        $log  = Log::aktivitas('Mengubah ' . $this->title . ' ID = ' . $module->id_module,$raw_data);
         return redirect()
             ->route("module.index",['parent_id' => $formData['parent_id']])
             ->with('success', 'Berhasil memperbarui data!');

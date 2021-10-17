@@ -9,7 +9,7 @@ function Sidebar() {
   pathname = pathname.split("/")[1];
   return (
     <React.Fragment>
-      <div className="sidebar">
+      <div className="sidebar sidebar-style-2">
         <div className="sidebar-wrapper scrollbar scrollbar-inner">
           <div className="sidebar-content">
             <div className="user">

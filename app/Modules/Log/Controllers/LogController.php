@@ -34,16 +34,21 @@ class LogController extends Controller
                 "field" => null,
                 "sortable" => false,
             ],
-        [
-            "name" => "User",
-            "field" => "id_user",
-            "sortable" => true,
-        ],
-        [
-            "name" => "Aktifitas",
-            "field" => "aktifitas",
-            "sortable" => true,
-        ],
+            [
+                "name" => "User",
+                "field" => "id_user",
+                "sortable" => true,
+            ],
+            [
+                "name" => "Aktifitas",
+                "field" => "aktifitas",
+                "sortable" => true,
+            ],
+            [
+                "name" => "Waktu",
+                "field" => null,
+                "sortable" => true,
+            ],
             [
                 "name" => "Aksi",
                 "field" => null,
@@ -61,7 +66,7 @@ class LogController extends Controller
     public function create()
     {
         $data['routes']['backUrl'] =  url()->previous() == URL::to('/') || url()->previous() == URL::current() ? URL::route('log.index') : url()->previous();
-        $data["ref_users"] = Users::get(["id_user as value","name as label"]);
+        $data["ref_users"] = Users::get(["id_user as value", "name as label"]);
         return Inertia::render('Log::Create', $data);
     }
     public function store(Request $request)
@@ -87,7 +92,7 @@ class LogController extends Controller
     public function edit($id)
     {
         $data['log'] = $this->model::findOrFail($id);
-        $data["ref_users"] = Users::get(["id_user as value","name as label"]);
+        $data["ref_users"] = Users::get(["id_user as value", "name as label"]);
         $data['routes']['backUrl'] =  url()->previous() == URL::to('/') || url()->previous() == URL::current() ? URL::route('log.index') : url()->previous();
         return Inertia::render('Log::Edit', $data);
     }
@@ -109,8 +114,7 @@ class LogController extends Controller
         $book = $this->model::findOrFail($id);
         $book->delete();
         return redirect()
-        ->route("log.index")
-        ->with('success', 'Berhasil menghapus data!');
+            ->route("log.index")
+            ->with('success', 'Berhasil menghapus data!');
     }
-
 }

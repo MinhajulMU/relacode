@@ -14,10 +14,44 @@ const Profil = () => {
   const { data, setData, errors, post, processing } = useForm({
     name: props.user.name || "",
     email: props.user.email || "",
-    photo: '',
-    _method: 'PUT'
+    photo: "",
+    _method: "PUT",
   });
-  console.log(props);
+  const doDarkMode = (event) => {
+    let isChecked = event.target.checked;
+    if (isChecked == true) {
+      let bodyclass =  document.querySelector('body');
+      bodyclass.removeAttribute('data-background-color');
+      bodyclass.removeAttribute('data-background-full');
+    	bodyclass.setAttribute('data-background-color', 'dark');
+      bodyclass.setAttribute('data-background-full', 'dark');
+      let logo_header = document.querySelector('.logo-header');
+      logo_header.removeAttribute('data-background-color');
+      logo_header.setAttribute('data-background-color', 'dark2');
+      let topbar = document.querySelector('.main-header .navbar-header');
+      topbar.removeAttribute('data-background-color');
+      topbar.setAttribute('data-background-color', 'dark');
+      let sidebar = document.querySelector('.sidebar');
+      sidebar.removeAttribute('data-background-color');
+      sidebar.setAttribute('data-background-color', 'dark2');
+    }else{
+      let bodyclass =  document.querySelector('body');
+      bodyclass.removeAttribute('data-background-color');
+      bodyclass.removeAttribute('data-background-full');
+    	bodyclass.setAttribute('data-background-color', 'bg1');
+      bodyclass.setAttribute('data-background-full', 'bg1');
+      let logo_header = document.querySelector('.logo-header');
+      logo_header.removeAttribute('data-background-color');
+      logo_header.setAttribute('data-background-color', 'blue');
+      let topbar = document.querySelector('.main-header .navbar-header');
+      topbar.removeAttribute('data-background-color');
+      topbar.setAttribute('data-background-color', 'blue2');
+      let sidebar = document.querySelector('.sidebar');
+      sidebar.removeAttribute('data-background-color');
+      sidebar.setAttribute('data-background-color', 'white');
+    }
+    console.log(isChecked);
+  }
   function handleSubmit(e) {
     e.preventDefault();
     post(route("dashboard.profile-update.update", props.user.id_user));
@@ -80,6 +114,30 @@ const Profil = () => {
                               </div>
                             </div>
                           </div>
+                          {/* <hr></hr>
+                          <div className="row">
+                            <div className="col-6">
+                              <b>Darkmode</b>
+                            </div>
+                            <div className="col-6 text-right">
+                              <div className="custom-control custom-switch">
+                                <input
+                                  type="checkbox"
+                                  className="custom-control-input"
+                                  id="customSwitch1"
+                                  data-onstyle="dark"
+                                  data-offstyle="light"
+                                  onChange={(e) => {
+                                    doDarkMode(e);
+                                  }}
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="customSwitch1"
+                                ></label>
+                              </div>
+                            </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -208,7 +266,13 @@ const Profil = () => {
                               value={data.photo}
                               onChange={(photo) => setData("photo", photo)}
                             />
-                            {(props.dokumen != null ? ReactHtmlParser("<span class='badge badge-success'>"+props.dokumen.file_name+"</span>") : "")}
+                            {props.dokumen != null
+                              ? ReactHtmlParser(
+                                  "<span class='badge badge-success'>" +
+                                    props.dokumen.file_name +
+                                    "</span>"
+                                )
+                              : ""}
                             <div className="form-group">
                               <SubmitButton
                                 name="Simpan"

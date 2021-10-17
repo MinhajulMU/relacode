@@ -8,6 +8,7 @@ use App\Bardiz12\Console\Commands\ModuleInsertDB;
 use App\Bardiz12\Console\Commands\ModuleGenerateModel;
 use App\Bardiz12\Console\Commands\ModuleLivewireDiscover;
 use App\Bardiz12\Console\Commands\ModuleGenerateController;
+use App\Bardiz12\Console\Commands\ModuleApiGenerateController;
  
 /**
  * ModulesServiceProvider
@@ -28,6 +29,9 @@ class ModulesServiceProvider extends \Illuminate\Support\ServiceProvider
             if(file_exists($prefix_path.'/'.$module.'/routes.php')) {
                 include $prefix_path.'/'.$module.'/routes.php';
             }
+            if(file_exists($prefix_path.'/'.$module.'/api.php')) {
+                include $prefix_path.'/'.$module.'/api.php';
+            }
             if(is_dir($prefix_path.'/'.$module.'/Views')) {
                 $this->loadViewsFrom($prefix_path.'/'.$module.'/Views', $module);
             }
@@ -44,6 +48,7 @@ class ModulesServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->commands([
             ModuleGenerateModel::class,
             ModuleGenerateController::class,
+            ModuleApiGenerateController::class,
             ModuleInsertDB::class,
             ModuleGenerate::class,
             ModuleLivewireDiscover::class

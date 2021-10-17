@@ -11,6 +11,7 @@ import Delete from "@/Shared/components/Action/Delete";
 import AllowAction from "@/Shared/components/AllowAction";
 import DeleteModal from "@/Shared/components/DeleteModal";
 import { Inertia } from "@inertiajs/inertia";
+import Moment from "react-moment";
 
 const Index = () => {
   const props = usePage().props;
@@ -88,8 +89,13 @@ const Index = () => {
                                 index +
                                 1}
                             </td>
-                                    <td>{items.id_user}</td>
-        <td>{items.aktifitas}</td>
+                            <td>{items.id_user}</td>
+                            <td>{items.aktifitas}</td>
+                            <td>
+                              <Moment locale="id" format="dddd, LLL">
+                                {items.created_at}
+                              </Moment>
+                            </td>
                             <td>
                               <div className="form-button-action">
                                 <AllowAction module="log" action="read">
@@ -99,9 +105,7 @@ const Index = () => {
                                 </AllowAction>
 
                                 <AllowAction module="log" action="update">
-                                  <Edit>
-                                    {route("log.edit", items.id_log)}
-                                  </Edit>
+                                  <Edit>{route("log.edit", items.id_log)}</Edit>
                                 </AllowAction>
 
                                 <AllowAction module="log" action="delete">

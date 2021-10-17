@@ -21,11 +21,12 @@ class Log extends Model
         'raw_data'
     ];
 
-    public static function aktivitas($aktivitas)
+    public static function aktivitas($aktivitas, $raw_data = null)
     {
         $data = new Log();
         $data->id_user = Auth::user()->id_user;
         $data->aktifitas = $aktivitas;
+        $data->raw_data = $raw_data;
         $data->save();
     }
 }

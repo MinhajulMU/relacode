@@ -12,6 +12,7 @@ const Queue = require("./util/Queue");
 /** @typedef {import("./DependenciesBlock")} DependenciesBlock */
 /** @typedef {import("./Dependency")} Dependency */
 /** @typedef {import("./Dependency").ExportSpec} ExportSpec */
+/** @typedef {import("./Dependency").ExportsSpec} ExportsSpec */
 /** @typedef {import("./ExportsInfo")} ExportsInfo */
 /** @typedef {import("./Module")} Module */
 
@@ -33,10 +34,14 @@ class FlagDependencyExportsPlugin {
 						const logger = compilation.getLogger(
 							"webpack.FlagDependencyExportsPlugin"
 						);
+						let statRestoredFromMemCache = 0;
 						let statRestoredFromCache = 0;
+						let statNoExports = 0;
 						let statFlaggedUncached = 0;
 						let statNotCached = 0;
 						let statQueueItemsProcessed = 0;
+
+						const { moduleMemCaches } = compilation;
 
 						/** @type {Queue<Module>} */
 						const queue = new Queue();
@@ -46,14 +51,28 @@ class FlagDependencyExportsPlugin {
 						asyncLib.each(
 							modules,
 							(module, callback) => {
-								if (
-									module.buildInfo.cacheable !== true ||
-									typeof module.buildInfo.hash !== "string"
-								) {
+								const exportsInfo = moduleGraph.getExportsInfo(module);
+								if (!module.buildMeta || !module.buildMeta.exportsType) {
+									if (exportsInfo.otherExportsInfo.provided !== null) {
+										// It's a module without declared exports
+										statNoExports++;
+										exportsInfo.setHasProvideInfo();
+										exportsInfo.setUnknownExportsProvided();
+										return callback();
+									}
+								}
+								if (typeof module.buildInfo.hash !== "string") {
 									statFlaggedUncached++;
 									// Enqueue uncacheable module for determining the exports
 									queue.enqueue(module);
-									moduleGraph.getExportsInfo(module).setHasProvideInfo();
+									exportsInfo.setHasProvideInfo();
+									return callback();
+								}
+								const memCache = moduleMemCaches && moduleMemCaches.get(module);
+								const memCacheValue = memCache && memCache.get(this);
+								if (memCacheValue !== undefined) {
+									statRestoredFromMemCache++;
+									exportsInfo.restoreProvided(memCacheValue);
 									return callback();
 								}
 								cache.get(
@@ -64,14 +83,12 @@ class FlagDependencyExportsPlugin {
 
 										if (result !== undefined) {
 											statRestoredFromCache++;
-											moduleGraph
-												.getExportsInfo(module)
-												.restoreProvided(result);
+											exportsInfo.restoreProvided(result);
 										} else {
 											statNotCached++;
 											// Without cached info enqueue module for determining the exports
 											queue.enqueue(module);
-											moduleGraph.getExportsInfo(module).setHasProvideInfo();
+											exportsInfo.setHasProvideInfo();
 										}
 										callback();
 									}
@@ -92,6 +109,9 @@ class FlagDependencyExportsPlugin {
 
 								/** @type {ExportsInfo} */
 								let exportsInfo;
+
+								/** @type {Map<Dependency, ExportsSpec>} */
+								const exportsSpecsFromDependencies = new Map();
 
 								let cacheable = true;
 								let changed = false;
@@ -116,9 +136,19 @@ class FlagDependencyExportsPlugin {
 								const processDependency = dep => {
 									const exportDesc = dep.getExports(moduleGraph);
 									if (!exportDesc) return;
+									exportsSpecsFromDependencies.set(dep, exportDesc);
+								};
+
+								/**
+								 * @param {Dependency} dep dependency
+								 * @param {ExportsSpec} exportDesc info
+								 * @returns {void}
+								 */
+								const processExportsSpec = (dep, exportDesc) => {
 									const exports = exportDesc.exports;
 									const globalCanMangle = exportDesc.canMangle;
 									const globalFrom = exportDesc.from;
+									const globalPriority = exportDesc.priority;
 									const globalTerminalBinding =
 										exportDesc.terminalBinding || false;
 									const exportDeps = exportDesc.dependencies;
@@ -135,7 +165,8 @@ class FlagDependencyExportsPlugin {
 												globalCanMangle,
 												exportDesc.excludeExports,
 												globalFrom && dep,
-												globalFrom
+												globalFrom,
+												globalPriority
 											)
 										) {
 											changed = true;
@@ -154,6 +185,7 @@ class FlagDependencyExportsPlugin {
 												let exports = undefined;
 												let from = globalFrom;
 												let fromExport = undefined;
+												let priority = globalPriority;
 												let hidden = false;
 												if (typeof exportNameOrSpec === "string") {
 													name = exportNameOrSpec;
@@ -167,6 +199,8 @@ class FlagDependencyExportsPlugin {
 														exports = exportNameOrSpec.exports;
 													if (exportNameOrSpec.from !== undefined)
 														from = exportNameOrSpec.from;
+													if (exportNameOrSpec.priority !== undefined)
+														priority = exportNameOrSpec.priority;
 													if (exportNameOrSpec.terminalBinding !== undefined)
 														terminalBinding = exportNameOrSpec.terminalBinding;
 													if (exportNameOrSpec.hidden !== undefined)
@@ -174,7 +208,10 @@ class FlagDependencyExportsPlugin {
 												}
 												const exportInfo = exportsInfo.getExportInfo(name);
 
-												if (exportInfo.provided === false) {
+												if (
+													exportInfo.provided === false ||
+													exportInfo.provided === null
+												) {
 													exportInfo.provided = true;
 													changed = true;
 												}
@@ -193,7 +230,8 @@ class FlagDependencyExportsPlugin {
 												}
 
 												if (exports) {
-													const nestedExportsInfo = exportInfo.createNestedExportsInfo();
+													const nestedExportsInfo =
+														exportInfo.createNestedExportsInfo();
 													mergeExports(nestedExportsInfo, exports);
 												}
 
@@ -204,7 +242,8 @@ class FlagDependencyExportsPlugin {
 														: exportInfo.setTarget(
 																dep,
 																from,
-																fromExport === undefined ? [name] : fromExport
+																fromExport === undefined ? [name] : fromExport,
+																priority
 														  ))
 												) {
 													changed = true;
@@ -214,12 +253,12 @@ class FlagDependencyExportsPlugin {
 												const target = exportInfo.getTarget(moduleGraph);
 												let targetExportsInfo = undefined;
 												if (target) {
-													const targetModuleExportsInfo = moduleGraph.getExportsInfo(
-														target.module
-													);
-													targetExportsInfo = targetModuleExportsInfo.getNestedExportsInfo(
-														target.export
-													);
+													const targetModuleExportsInfo =
+														moduleGraph.getExportsInfo(target.module);
+													targetExportsInfo =
+														targetModuleExportsInfo.getNestedExportsInfo(
+															target.export
+														);
 													// add dependency for this module
 													const set = dependencies.get(target.module);
 													if (set === undefined) {
@@ -278,40 +317,40 @@ class FlagDependencyExportsPlugin {
 									statQueueItemsProcessed++;
 
 									exportsInfo = moduleGraph.getExportsInfo(module);
-									if (!module.buildMeta || !module.buildMeta.exportsType) {
-										if (exportsInfo.otherExportsInfo.provided !== null) {
-											// It's a module without declared exports
-											exportsInfo.setUnknownExportsProvided();
-											modulesToStore.add(module);
-											notifyDependencies();
-										}
-									} else {
-										// It's a module with declared exports
 
-										cacheable = true;
-										changed = false;
+									cacheable = true;
+									changed = false;
 
-										processDependenciesBlock(module);
+									exportsSpecsFromDependencies.clear();
+									moduleGraph.freeze();
+									processDependenciesBlock(module);
+									moduleGraph.unfreeze();
+									for (const [
+										dep,
+										exportsSpec
+									] of exportsSpecsFromDependencies) {
+										processExportsSpec(dep, exportsSpec);
+									}
 
-										if (cacheable) {
-											modulesToStore.add(module);
-										}
+									if (cacheable) {
+										modulesToStore.add(module);
+									}
 
-										if (changed) {
-											notifyDependencies();
-										}
+									if (changed) {
+										notifyDependencies();
 									}
 								}
 								logger.timeEnd("figure out provided exports");
 
 								logger.log(
 									`${Math.round(
-										100 -
-											(100 * statRestoredFromCache) /
-												(statRestoredFromCache +
-													statNotCached +
-													statFlaggedUncached)
-									)}% of exports of modules have been determined (${statNotCached} not cached, ${statFlaggedUncached} flagged uncacheable, ${statRestoredFromCache} from cache, ${
+										(100 * (statFlaggedUncached + statNotCached)) /
+											(statRestoredFromMemCache +
+												statRestoredFromCache +
+												statNotCached +
+												statFlaggedUncached +
+												statNoExports)
+									)}% of exports of modules have been determined (${statNoExports} no declared exports, ${statNotCached} not cached, ${statFlaggedUncached} flagged uncacheable, ${statRestoredFromCache} from cache, ${statRestoredFromMemCache} from mem cache, ${
 										statQueueItemsProcessed -
 										statNotCached -
 										statFlaggedUncached
@@ -322,19 +361,22 @@ class FlagDependencyExportsPlugin {
 								asyncLib.each(
 									modulesToStore,
 									(module, callback) => {
-										if (
-											module.buildInfo.cacheable !== true ||
-											typeof module.buildInfo.hash !== "string"
-										) {
+										if (typeof module.buildInfo.hash !== "string") {
 											// not cacheable
 											return callback();
+										}
+										const cachedData = moduleGraph
+											.getExportsInfo(module)
+											.getRestoreProvidedData();
+										const memCache =
+											moduleMemCaches && moduleMemCaches.get(module);
+										if (memCache) {
+											memCache.set(this, cachedData);
 										}
 										cache.store(
 											module.identifier(),
 											module.buildInfo.hash,
-											moduleGraph
-												.getExportsInfo(module)
-												.getRestoreProvidedData(),
+											cachedData,
 											callback
 										);
 									},

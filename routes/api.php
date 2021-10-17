@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use Laravel\Ui\AuthCommand;
+use App\Http\Controllers\Api\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,3 +17,10 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['middleware' => 'auth:sanctum'],function(){
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('logoutall', [AuthController::class, 'logoutall']);
+});
+
+Route::post('/login',[AuthController::class,'login']);

@@ -41,6 +41,7 @@ const builtins = [
 	"repl",
 	"stream",
 	"stream/promises",
+	"stream/web",
 	"string_decoder",
 	"sys",
 	"timers",
@@ -54,7 +55,12 @@ const builtins = [
 	"vm",
 	"wasi",
 	"worker_threads",
-	"zlib"
+	"zlib",
+	/^node:/,
+
+	// cspell:word pnpapi
+	// Yarn PnP adds pnpapi as "builtin"
+	"pnpapi"
 ];
 
 class NodeTargetPlugin {
@@ -64,7 +70,7 @@ class NodeTargetPlugin {
 	 * @returns {void}
 	 */
 	apply(compiler) {
-		new ExternalsPlugin("commonjs", builtins).apply(compiler);
+		new ExternalsPlugin("node-commonjs", builtins).apply(compiler);
 	}
 }
 
